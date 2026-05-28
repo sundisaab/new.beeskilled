@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>LMS Quiz System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+    
+    <style>
+        /* --- CERTIFICATE STYLES (Hidden from view) --- */
+        #certificate-hidden-wrapper {
+            position: fixed;
+            top: -10000px;
+            left: -10000px;
+            z-index: -1;
+        }
+
+        .cert-container {
+            width: 842px;  /* A4 Landscape Width */
+            height: 595px; /* A4 Landscape Height */
+            position: relative;
+            background: #ffffff; /* Pure White Background */
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #1f2937;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+
+        /* DECORATIVE BACKGROUND WATERMARK */
+        .cert-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-10deg);
+            font-size: 120px;
+            font-weight: 700;
+            color: rgba(30, 58, 138, 0.04); /* Very light Navy */
+            z-index: 0;
+            white-space: nowrap;
+            letter-spacing: 10px;
+            pointer-events: none;
+        }
+
+        /* DECORATIVE INNER BORDER FRAME */
+        .cert-frame {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            bottom: 40px;
+            border: 2px solid #d4af37; /* Gold Border */
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* HEADER & FOOTER COLOR BARS with GOLD ACCENT */
+        .cert-bar-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 25px; 
+            background-color: #1e3a8a; /* Navy Blue */
+            border-bottom: 4px solid #d4af37; /* Gold Line */
+            z-index: 1;
+        }
+
+        .cert-bar-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 25px; 
+            background-color: #1e3a8a; 
+            border-top: 4px solid #d4af37; /* Gold Line */
+            z-index: 1;
+        }
+
+        /* Content */
+        .cert-content {
+            margin-top: 130px; 
+            z-index: 5;
+            width: 80%;
+            position: relative;
+        }
+
+        .cert-header-text {
+            font-size: 16px;
+            color: #4b5563;
+            font-weight: 500;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* NAME: Stylish */
+        .cert-name {
+            font-size: 52px;
+            font-weight: 700;
+            color: #1e3a8a; 
+            margin: 10px auto 20px auto;
+            text-transform: capitalize;
+            border-bottom: 2px solid #d4af37; /* Gold Underline */
+            display: inline-block;
+            min-width: 450px;
+            padding-bottom: 10px;
+        }
+
+        .cert-body-text {
+            font-size: 18px;
+            color: #374151;
+            margin-top: 30px;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .cert-bold {
+            font-weight: 700;
+            color: #000000;
+            font-size: 20px;
+        }
+
+        /* Footer / Signature Area */
+        .cert-footer {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+        }
+
+        .cert-sign-img {
+            font-family: 'Great Vibes', cursive;
+            font-size: 42px;
+            color: #000000;
+            margin-bottom: -5px; 
+        }
+
+        .cert-line {
+            width: 220px;
+            height: 1px;
+            background-color: #000000;
+            margin-bottom: 8px;
+        }
+
+        .cert-signer-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cert-signer-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111827;
+            text-transform: uppercase;
+        }
+
+        .cert-signer-title {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        /* Utility */
+        .hidden { display: none !important; }
+    </style>
+    
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="top-bar">
+            <div class="brand">
+                <div class="brand-logo">
+                    <img src="assets/bee.png" alt="BeeSkilled Logo">
+                </div>
+                <div class="brand-text">
+                    <h1>BeeSkilled</h1>
+                    <p>Quiz Portal</p>
+                </div>
+            </div>
+            <div class="user-indicator" id="user-indicator">
+                <span id="user-name-label">Guest</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section id="entry-section" class="view active">
+                <div class="card entry-card">
+                    <h2>Welcome to Quiz Assessment</h2>
+                    <p class="subtitle">Enter your details to begin.</p>
+                    <form id="entry-form" class="form">
+                        <div class="form-group">
+                            <label for="student-name">Student Name</label>
+                            <input type="text" id="student-name" required placeholder="Enter your full name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="student-email">Email</label>
+                            <input type="email" id="student-email" required placeholder="Enter your email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="course-enrolled">Course Enrolled</label>
+                            <select id="course-enrolled" required>
+                                <option value="">Select your course</option>
+                                <option value="C Programming">C Programming</option>
+                                <option value="C++">C++</option>
+                                <option value="Python">Python</option>
+                                <option value="Web Development (HTML/CSS/JS)">Web Development (HTML/CSS/JS)</option>
+                                <option value="Data Science with Python">Data Science with Python</option>
+                                <option value="Machine Learning & AI">Machine Learning & AI</option>
+                                <option value="Full Stack Web Dev (MERN)">Full Stack Web Dev (MERN)</option>
+                                <option value="Java">Java</option>
+                                <option value="Data Structures & Algorithms (DSA)">Data Structures & Algorithms (DSA)</option>
+                                <option value="Flutter">Flutter</option>
+                                <option value="Cloud Computing with AWS">Cloud Computing with AWS</option>
+                                <option value="Data Analyst">Data Analyst</option>
+                                <option value="Power BI">Power BI</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn primary-btn full-width">Continue to Courses</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="dashboard-section" class="view">
+                <div class="section-header">
+                    <div>
+                        <h2>Select Your Course</h2>
+                        <p class="subtitle">Choose a course to start your assessment.</p>
+                    </div>
+                    <button id="change-student-btn" class="btn subtle-btn">Log out</button>
+                </div>
+                <div id="course-grid" class="course-grid"></div>
+            </section>
+
+            <section id="quiz-section" class="view">
+                <div class="quiz-header">
+                    <div>
+                        <h2 id="quiz-course-title">Course Quiz</h2>
+                        <p class="subtitle" id="quiz-student-label"></p>
+                    </div>
+                    <div class="timer-pill">⏱ Time Left: <span id="timer-display">30:00</span></div>
+                </div>
+                <div class="card quiz-card">
+                    <form id="quiz-form">
+                        <div id="questions-container" class="questions-container"></div>
+                        <div class="quiz-actions">
+                            <button type="submit" class="btn primary-btn">Submit Test</button>
+                            <button type="button" class="btn ghost-btn" id="cancel-quiz-btn">Cancel & Go Back</button>
+                        </div>
+                        <p class="note">Note: Test will auto-submit when the 30-minute timer ends.</p>
+                    </form>
+                </div>
+            </section>
+
+            <section id="result-section" class="view">
+                <div class="card result-card">
+                    <h2>Test Result</h2>
+                    <p id="result-name"></p>
+                    <p id="result-course"></p>
+                    <p id="result-score" class="result-score"></p>
+                    <p id="result-message" class="result-message"></p>
+                    <p id="result-attempt" class="result-attempt"></p>
+                    <div class="result-actions">
+                        <button id="download-cert-btn" class="btn primary-btn hidden" style="background: #1e3a8a; border-color: #1e3a8a;">
+                            <i class="fas fa-certificate"></i> Download Certificate
+                        </button>
+                        <button id="back-to-dashboard-btn" class="btn primary-btn">Back to Course Dashboard</button>
+                    </div>
+                    <p class="note small">Your result has been sent to the LMS sheet.</p>
+                </div>
+            </section>
+        </main>
+        <footer class="footer"><p>© <span id="year"></span>• BeeSkilled Quiz System</p></footer>
+    </div>
+
+    <div id="certificate-hidden-wrapper">
+        <div class="cert-container" id="certificate-element">
+            
+            <div class="cert-bar-top"></div>
+            <div class="cert-bar-bottom"></div>
+            <div class="cert-frame"></div>
+            
+            <div class="cert-watermark">BeeSkilled</div>
+
+            <div class="cert-content">
+                <div class="cert-header-text">
+                    This internship program certificate is proudly awarded to
+                </div>
+
+                <div class="cert-name" id="cert-student-name">
+                    Student Name
+                </div>
+
+                <div class="cert-body-text">
+                    has completed the 6-Week online internship program in<br>
+                    <span class="cert-bold" id="cert-course-name">Web Development</span> at <span class="cert-bold">BeeSkilled</span>
+                </div>
+            </div>
+
+            <div class="cert-footer">
+                <div class="cert-sign-img">Skour</div>
+                <div class="cert-line"></div>
+                
+                <div class="cert-signer-info">
+                    <span class="cert-signer-name">Simranjeet Kour</span>
+                    <span class="cert-signer-title">Founder & Program Head</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // --- UPDATED LOGIC: CHECK PASSING MARKS (15) ---
+            function checkPassingCondition() {
+                const scoreElement = document.getElementById('result-score');
+                const scoreText = scoreElement.textContent || "";
+                
+                // Extract number from text (e.g. "Score: 16/20" -> 16)
+                const match = scoreText.match(/(\d+)/);
+                let score = 0;
+                if (match) {
+                    score = parseInt(match[0]);
+                }
+
+                // Check condition: Must be 15 or more
+                return score >= 15;
+            }
+
+            // Watch Result Page Visibility
+            const resultSection = document.getElementById('result-section');
+            const certBtn = document.getElementById('download-cert-btn');
+            
+            function handleResultPageShown() {
+                // If student passed (>= 15), show button, else hide
+                if (checkPassingCondition()) {
+                    certBtn.classList.remove('hidden');
+                } else {
+                    certBtn.classList.add('hidden');
+                }
+            }
+
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === "attributes" && mutation.attributeName === "class") {
+                        if (resultSection.classList.contains('active') || !resultSection.classList.contains('hidden')) {
+                            // Slight delay to ensure text is populated
+                            setTimeout(handleResultPageShown, 100);
+                        }
+                    }
+                });
+            });
+            observer.observe(resultSection, { attributes: true });
+
+            // Generate PDF
+            certBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const rawName = document.getElementById('result-name').textContent || "";
+                const rawCourse = document.getElementById('result-course').textContent || "";
+                
+                let cleanName = rawName.replace(/Student:/gi, '').replace(/Name:/gi, '').trim();
+                let cleanCourse = rawCourse.replace(/Course:/gi, '').trim();
+
+                if(!cleanName) cleanName = "Student Name";
+
+                document.getElementById('cert-student-name').textContent = cleanName;
+                document.getElementById('cert-course-name').textContent = cleanCourse;
+
+                const element = document.getElementById('certificate-element');
+                const opt = {
+                    margin: 0,
+                    filename: `BeeSkilled_Certificate_${cleanName.replace(/\s+/g, '_')}.pdf`,
+                    image: { type: 'jpeg', quality: 1.0 },
+                    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                    jsPDF: { unit: 'px', format: [842, 595], orientation: 'landscape' }
+                };
+
+                const originalText = certBtn.innerHTML;
+                certBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                certBtn.disabled = true;
+
+                html2pdf().set(opt).from(element).save().then(() => {
+                    certBtn.innerHTML = originalText;
+                    certBtn.disabled = false;
+                }).catch(err => {
+                    console.error("PDF Error:", err);
+                    alert("Error: Please check internet connection.");
+                    certBtn.innerHTML = originalText;
+                    certBtn.disabled = false;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

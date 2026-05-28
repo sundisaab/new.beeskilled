@@ -1,0 +1,3031 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeeSkilled LMS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+/* ============================================================
+   BeeSkilled LMS — Premium White Glassmorphism Theme
+   Converted from File 2 design system
+   All functionality preserved, only UI styling changed
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* ── 1. Design Tokens ──────────────────────────────────────── */
+:root {
+    --primary:         #7c3aed;
+    --primary-dark:    #5b21b6;
+    --primary-light:   #a78bfa;
+    --primary-soft:    rgba(124, 58, 237, 0.12);
+
+    --secondary:       #4f7ef8;
+    --secondary-dark:  #3b82f6;
+    --secondary-light: #60a5fa;
+
+    --accent:          #0ea5e9;
+    --accent-dark:     #0284c7;
+    --accent-soft:     rgba(14, 165, 233, 0.10);
+
+    --bg:              #f8f6ff;
+    --surface:         #f0eeff;
+    --card:            rgba(255, 255, 255, 0.55);
+    --card-soft:       rgba(255, 255, 255, 0.48);
+    --elevated:        rgba(255, 255, 255, 0.75);
+
+    --border:          rgba(255, 255, 255, 0.70);
+    --border-strong:   rgba(124, 58, 237, 0.20);
+
+    --text:            #0f0e17;
+    --text-muted:      #5a5870;
+    --text-faint:      #8b8aa0;
+
+    --success:         #059669;
+    --success-soft:    rgba(5, 150, 105, 0.10);
+    --warning:         #f59e0b;
+    --danger:          #ef4444;
+    --danger-soft:     rgba(239, 68, 68, 0.10);
+
+    --r-sm:  10px;
+    --r-md:  16px;
+    --r-lg:  22px;
+    --r-xl:  28px;
+
+    --t-fast: 140ms cubic-bezier(0.4, 0, 0.2, 1);
+    --t:      240ms cubic-bezier(0.4, 0, 0.2, 1);
+    --t-slow: 380ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    --shadow-sm:   0 8px 32px rgba(100, 80, 200, 0.08);
+    --shadow-md:   0 12px 40px rgba(100, 80, 200, 0.10);
+    --shadow-lg:   0 20px 60px rgba(100, 80, 200, 0.12);
+    --shadow-glow: 0 0 40px rgba(124, 58, 237, 0.12);
+
+    --glass:       blur(28px) saturate(180%);
+    --glass-sm:    blur(16px) saturate(160%);
+
+    --nav-height: 68px;
+}
+
+/* ── 2. Base Reset & Typography ────────────────────────────── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(150deg, #fdfcff 0%, #f0ebff 30%, #e8f4fd 60%, #fff9f5 100%);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--t), color var(--t);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated mesh background — exactly like File 2 */
+body::before {
+    content: '';
+    position: fixed;
+    inset: -30%;
+    z-index: -2;
+    background: 
+        radial-gradient(ellipse 80% 60% at 0%   0%,   #ede9fe 0%,  transparent 55%),
+        radial-gradient(ellipse 60% 50% at 100% 0%,   #dbeafe 0%,  transparent 50%),
+        radial-gradient(ellipse 70% 60% at 50% 100%,  #fce7f3 0%,  transparent 55%),
+        radial-gradient(ellipse 55% 50% at 100% 100%, #fed7aa 0%,  transparent 50%);
+    animation: meshShift 20s ease-in-out infinite alternate;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    inset: -30%;
+    z-index: -2;
+    background: 
+        radial-gradient(ellipse 55% 55% at 20% 25%, rgba(167, 139, 250, 0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 50% at 80% 15%, rgba(96, 165, 250, 0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 45% at 55% 85%, rgba(249, 115, 22, 0.12) 0%, transparent 55%);
+    animation: meshShift 28s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes meshShift {
+    0%   { transform: scale(1)    rotate(0deg);  opacity: 0.8; }
+    50%  { transform: scale(1.06) rotate(3deg);  opacity: 1;   }
+    100% { transform: scale(0.96) rotate(-2deg); opacity: 0.75; }
+}
+
+/* ── 3. Layout ─────────────────────────────────────────────── */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.75rem;
+    position: relative;
+    z-index: 2;
+}
+
+section {
+    padding-top: 1.75rem;
+    padding-bottom: 3rem;
+}
+
+/* ── 4. Header / Navbar (glass — File 2 style) ── */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    background: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 1px 0 rgba(200, 190, 255, 0.25), 0 4px 24px rgba(120, 100, 200, 0.08);
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.30), rgba(79, 126, 248, 0.30), transparent);
+}
+
+.navbar {
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #7c3aed 0%, #4f7ef8 60%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-decoration: none;
+    filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.15));
+}
+
+.logo i {
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.3));
+    transition: transform var(--t), filter var(--t);
+}
+
+.logo i:hover {
+    transform: rotate(-8deg) scale(1.1);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.18rem;
+    padding: 0.3rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: var(--glass-sm);
+    -webkit-backdrop-filter: var(--glass-sm);
+    border: 1px solid rgba(255, 255, 255, 0.70);
+}
+
+.nav-links a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.42rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: all var(--t-fast);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.12), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--t-fast);
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+    background: rgba(124, 58, 237, 0.08);
+    transform: translateY(-1px);
+}
+
+.nav-links a:hover::before { opacity: 1; }
+
+.nav-links a.active {
+    background: linear-gradient(135deg, #7c3aed 0%, #4f7ef8 100%);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(124, 58, 237, 0.30), 0 0 0 1px rgba(255, 255, 255, 0.20) inset;
+}
+
+.nav-links a.active::before { opacity: 0; }
+
+.theme-toggle {
+    border: 1px solid rgba(124, 58, 237, 0.18);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: var(--glass-sm);
+    -webkit-backdrop-filter: var(--glass-sm);
+    border-radius: 999px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    transition: all var(--t-fast);
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px) rotate(15deg);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.15);
+    background: rgba(124, 58, 237, 0.08);
+}
+
+/* ── 5. Mobile Navbar ──────────────────────────────────────── */
+@media (max-width: 768px) {
+    .navbar { padding: 0 0.5rem; }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: var(--nav-height);
+        right: 1rem;
+        left: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: var(--glass);
+        -webkit-backdrop-filter: var(--glass);
+        border: 1px solid rgba(255, 255, 255, 0.80);
+        border-radius: 20px;
+        padding: 0.9rem;
+        gap: 0.4rem;
+        box-shadow: 0 24px 60px rgba(100, 80, 200, 0.15);
+        z-index: 100;
+    }
+
+    .nav-links.show { display: flex; }
+
+    .nav-links a {
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+        border-radius: 14px;
+        font-size: 0.9rem;
+    }
+
+    .hamburger {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        color: var(--text);
+        cursor: pointer;
+        transition: color var(--t-fast);
+    }
+
+    .hamburger:hover { color: var(--primary); }
+}
+
+@media (min-width: 769px) { .hamburger { display: none; } }
+
+/* ── 6. Login Page — Glass Card Style ──────────────────────── */
+#login-page.container {
+    max-width: 100%;
+    padding: 0;
+}
+
+#login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 2rem;
+    align-items: stretch;
+}
+
+@media (max-width: 880px) {
+    .login-container {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 480px;
+    }
+}
+
+.login-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.52);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    border-radius: var(--r-xl);
+    padding: 2.6rem 2.3rem;
+    box-shadow: 0 24px 60px rgba(120, 80, 220, 0.12), 0 8px 20px rgba(120, 80, 220, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.90), inset 0 -1px 0 rgba(140, 120, 240, 0.08);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+}
+
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+    border-radius: 28px 0 0 0;
+    pointer-events: none;
+}
+
+.login-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.40), transparent);
+    pointer-events: none;
+}
+
+.login-card > * { position: relative; z-index: 1; }
+
+.login-card h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #1a0a3d 0%, #6d28d9 40%, #2563eb 75%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.login-card p {
+    font-size: 0.91rem;
+    color: var(--text-muted);
+    max-width: 23rem;
+    margin-bottom: 1.85rem;
+    line-height: 1.7;
+}
+
+.login-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.73rem;
+    font-weight: 700;
+    padding: 0.28rem 0.78rem;
+    border-radius: 999px;
+    background: rgba(5, 150, 105, 0.08);
+    border: 1px solid rgba(5, 150, 105, 0.20);
+    color: var(--success);
+    margin-bottom: 1.1rem;
+    letter-spacing: 0.03em;
+    backdrop-filter: blur(8px);
+}
+
+.login-badge i { font-size: 0.68rem; }
+
+/* ── 7. Form Elements (Glass Style) ───────────────────────── */
+.form-group { margin-bottom: 1.2rem; text-align: left; }
+
+.form-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    margin-bottom: 0.46rem;
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.form-group label i { font-size: 0.70rem; opacity: 0.75; }
+
+.form-group input {
+    width: 100%;
+    padding: 0.84rem 1.05rem;
+    border-radius: var(--r-md);
+    border: 1.5px solid rgba(0, 0, 0, 0.09);
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text);
+    font-size: 0.9rem;
+    outline: none;
+    transition: all var(--t-fast);
+    box-shadow: 0 2px 8px rgba(100, 80, 200, 0.05);
+}
+
+.form-group input::placeholder {
+    color: var(--text-faint);
+}
+
+.form-group input:focus {
+    border-color: rgba(124, 58, 237, 0.40);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.10), 0 8px 30px rgba(100, 80, 200, 0.12);
+    transform: translateY(-1px);
+}
+
+.password-container { position: relative; }
+
+.toggle-password {
+    position: absolute;
+    right: 0.65rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.45rem;
+    border-radius: 999px;
+    transition: all var(--t-fast);
+}
+
+.toggle-password:hover {
+    color: var(--primary);
+    background: rgba(124, 58, 237, 0.08);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* ── 8. Buttons (Gradient — File 2 Style) ──────────────────── */
+.btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.80rem 1.35rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all var(--t);
+    letter-spacing: 0.01em;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.32) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 500ms ease;
+    pointer-events: none;
+}
+
+.btn:hover::before { transform: translateX(100%); }
+
+.btn-primary {
+    width: 100%;
+    margin-top: 0.45rem;
+    background: linear-gradient(135deg, #7c3aed 0%, #4f7ef8 55%, #0ea5e9 100%);
+    background-size: 200% 200%;
+    border-color: rgba(255, 255, 255, 0.20);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(124, 58, 237, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+    animation: gradientPulse 5s ease infinite;
+}
+
+@keyframes gradientPulse {
+    0%   { background-position: 0%   50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0%   50%; }
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 32px rgba(124, 58, 237, 0.40), 0 0 0 4px rgba(124, 58, 237, 0.10);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: var(--glass-sm);
+    -webkit-backdrop-filter: var(--glass-sm);
+    border: 1.5px solid rgba(124, 58, 237, 0.18);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    border-color: rgba(124, 58, 237, 0.40);
+    color: var(--primary);
+    transform: translateY(-2px);
+    background: rgba(124, 58, 237, 0.08);
+    box-shadow: 0 6px 22px rgba(124, 58, 237, 0.12);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #059669 0%, #0ea5e9 100%);
+    border-color: rgba(5, 150, 105, 0.30);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
+}
+
+.btn-success:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(5, 150, 105, 0.35);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    border-color: rgba(245, 158, 11, 0.30);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.35);
+}
+
+.btn-outline {
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: var(--glass-sm);
+    -webkit-backdrop-filter: var(--glass-sm);
+    border: 1.5px solid rgba(124, 58, 237, 0.18);
+    color: var(--text-muted);
+}
+
+.btn-outline:hover {
+    border-color: rgba(124, 58, 237, 0.40);
+    color: var(--primary);
+    transform: translateY(-2px);
+    background: rgba(124, 58, 237, 0.08);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.12);
+}
+
+.btn[disabled],
+.btn:disabled {
+    opacity: 0.40;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* ── 9. Login Hero Panel (Glass — File 2 Style) ────────────── */
+.login-hero {
+    position: relative;
+    border-radius: var(--r-xl);
+    padding: 2.3rem 2.1rem;
+    background: linear-gradient(135deg, #7c3aed 0%, #4f7ef8 55%, #0ea5e9 100%);
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(120, 80, 220, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+    animation: heroFloat 7s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    40%      { transform: translateY(-9px) rotate(0.35deg); }
+    70%      { transform: translateY(-4px) rotate(-0.2deg); }
+}
+
+.login-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 8% 88%, rgba(251, 191, 36, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 92% 8%, rgba(255, 255, 255, 0.20) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.login-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.14), transparent);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.login-hero > * { position: relative; z-index: 1; }
+
+.login-hero-badge {
+    display: inline-flex;
+    padding: 0.30rem 0.82rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    backdrop-filter: blur(10px);
+}
+
+.login-hero-title {
+    margin-top: 1.1rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    max-width: 16rem;
+    line-height: 1.25;
+}
+
+.login-hero-sub {
+    margin-top: 0.78rem;
+    font-size: 0.87rem;
+    max-width: 17rem;
+    opacity: 0.92;
+    line-height: 1.65;
+}
+
+.login-hero-metrics {
+    margin-top: 1.7rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.88rem;
+}
+
+.login-hero-pill {
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 16px;
+    padding: 0.72rem 0.88rem;
+    font-size: 0.78rem;
+    transition: all var(--t-fast);
+}
+
+.login-hero-pill:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+}
+
+.login-hero-pill strong {
+    display: block;
+    font-size: 0.87rem;
+    margin-bottom: 0.12rem;
+    font-weight: 700;
+}
+
+@media (max-width: 880px) {
+    .login-hero { display: none; }
+    .login-card { padding: 2.3rem 1.9rem; }
+}
+
+/* ── 10. Page Titles ───────────────────────────────────────── */
+.page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 1.55rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: relative;
+    background: linear-gradient(135deg, #1a0a3d 0%, #6d28d9 40%, #2563eb 75%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.42rem;
+    width: 3.2rem;
+    height: 2.5px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent), transparent);
+}
+
+.page-title i { font-size: 1.1rem; color: var(--primary); opacity: 0.85; }
+
+.page-title-chip {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.69rem;
+    font-weight: 700;
+    padding: 0.15rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.20);
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    backdrop-filter: blur(8px);
+}
+
+/* ── 11. Dashboard ─────────────────────────────────────────── */
+#dashboard-page { padding-top: 1.75rem; }
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.1rem;
+}
+
+@media (max-width: 1024px) {
+    .courses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+    .courses-grid { grid-template-columns: minmax(0, 1fr); gap: 1.15rem; }
+}
+
+/* ── 12. Course Cards (Glass — File 2 Style) ───────────────── */
+.course-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.52);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    border-radius: var(--r-lg);
+    box-shadow: 0 8px 32px rgba(100, 80, 200, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    overflow: hidden;
+    cursor: pointer;
+    transform-origin: center;
+    transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+    animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.course-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 65%;
+    height: 45%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, transparent 70%);
+    border-radius: 22px 0 0 0;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 1;
+}
+
+.course-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.40), rgba(79, 126, 248, 0.40), transparent);
+    opacity: 0;
+    transition: opacity var(--t);
+    z-index: 2;
+}
+
+.course-card:hover {
+    transform: translateY(-9px) scale(1.015);
+    border-color: rgba(124, 58, 237, 0.30);
+    box-shadow: 0 28px 55px rgba(124, 58, 237, 0.16), 0 10px 22px rgba(124, 58, 237, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.course-card:hover::after { opacity: 1; }
+
+.course-card > * { position: relative; z-index: 1; }
+
+.course-card:nth-child(1) { animation-delay: 0.05s; }
+.course-card:nth-child(2) { animation-delay: 0.10s; }
+.course-card:nth-child(3) { animation-delay: 0.15s; }
+.course-card:nth-child(4) { animation-delay: 0.20s; }
+.course-card:nth-child(5) { animation-delay: 0.25s; }
+.course-card:nth-child(6) { animation-delay: 0.30s; }
+
+.course-image {
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: var(--r-lg);
+    border-top-right-radius: var(--r-lg);
+}
+
+.course-image img {
+    width: 100%;
+    height: 138px;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.03);
+    transition: transform var(--t-slow), filter var(--t-slow);
+    filter: brightness(0.95) saturate(1.05);
+}
+
+.course-card:hover .course-image img {
+    transform: scale(1.09);
+    filter: brightness(1.0) saturate(1.15);
+}
+
+.course-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(13, 6, 0, 0.70) 0%, rgba(13, 6, 0, 0.25) 50%, transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.course-image-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 1.1rem 1.3rem;
+    z-index: 2;
+}
+
+.course-image-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.97rem;
+    font-weight: 700;
+    max-width: 68%;
+    color: #fef3e8;
+    line-height: 1.35;
+    text-shadow: 0 1px 8px rgba(13, 6, 0, 0.70);
+}
+
+.course-chip {
+    padding: 0.22rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(13, 6, 0, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(124, 58, 237, 0.40);
+    font-size: 0.69rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a78bfa;
+}
+
+.course-content { padding: 1.2rem 1.4rem 1.25rem; }
+
+.course-content h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.28rem;
+    line-height: 1.4;
+    color: var(--text);
+}
+
+.course-content p {
+    font-size: 0.81rem;
+    color: var(--text-muted);
+    margin-bottom: 0.92rem;
+    line-height: 1.6;
+}
+
+/* ── 13. Progress Bars ─────────────────────────────────────── */
+.progress-container { margin-bottom: 1rem; }
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-bottom: 0.38rem;
+    font-weight: 600;
+}
+
+.progress-bar {
+    position: relative;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.progress-fill {
+    position: relative;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    transition: width 750ms cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.45);
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.50) 50%, transparent 100%);
+    animation: bar-shimmer 2.6s ease-in-out infinite;
+}
+
+@keyframes bar-shimmer {
+    0%   { transform: translateX(-100%); }
+    60%  { transform: translateX(100%); }
+    100% { transform: translateX(100%); }
+}
+
+.course-card .btn-primary.continue-btn {
+    width: 100%;
+    justify-content: center;
+    padding-inline: 0.9rem;
+    font-size: 0.84rem;
+    margin-top: 0.15rem;
+    background: linear-gradient(135deg, #7c3aed 0%, #4f7ef8 55%, #0ea5e9 100%);
+    border-radius: 999px;
+    box-shadow: 0 4px 18px rgba(124, 58, 237, 0.30);
+}
+
+.course-card .btn-primary.continue-btn i { font-size: 0.78rem; }
+
+/* ── 14. Course / Week Page (Glass Cards) ──────────────────── */
+#course-page { padding-top: 1.75rem; }
+
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.back-btn { padding-inline: 0.95rem; font-size: 0.82rem; }
+
+.weeks-container {
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.week-card {
+    background: rgba(255, 255, 255, 0.52);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    border-radius: var(--r-lg);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 8px 32px rgba(100, 80, 200, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+    overflow: hidden;
+    transition: all var(--t);
+    animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+    position: relative;
+}
+
+.week-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 40%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.50) 0%, transparent 70%);
+    border-radius: 22px 0 0 0;
+    pointer-events: none;
+}
+
+.week-card:nth-child(1) { animation-delay: 0.05s; }
+.week-card:nth-child(2) { animation-delay: 0.10s; }
+.week-card:nth-child(3) { animation-delay: 0.15s; }
+.week-card:nth-child(4) { animation-delay: 0.20s; }
+
+.week-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(124, 58, 237, 0.30);
+    box-shadow: 0 22px 55px rgba(124, 58, 237, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.week-header {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(255, 255, 255, 0.70) 100%);
+    color: var(--text);
+    border-bottom: 1px solid rgba(124, 58, 237, 0.10);
+    position: relative;
+}
+
+.week-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.40), rgba(79, 126, 248, 0.40), transparent);
+}
+
+.week-header h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.93rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.week-header span {
+    font-size: 0.78rem;
+    padding: 0.28rem 0.72rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(124, 58, 237, 0.20);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.week-header span i { font-size: 0.76rem; }
+
+.week-header.locked {
+    background: linear-gradient(135deg, rgba(156, 163, 175, 0.08) 0%, rgba(255, 255, 255, 0.60) 100%);
+}
+
+.week-content { padding: 1.2rem 1.25rem 1.35rem; }
+
+/* ── 15. Video Container ───────────────────────────────────── */
+.video-container {
+    position: relative;
+    width: 100%;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: radial-gradient(circle at top, rgba(124, 58, 237, 0.08), rgba(255, 255, 255, 0.50));
+    padding-bottom: 56.25%;
+    margin-bottom: 1.1rem;
+    box-shadow: 0 8px 32px rgba(100, 80, 200, 0.10), 0 0 0 1px rgba(255, 255, 255, 0.50);
+}
+
+.video-container iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.locked-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.85));
+    color: var(--text-muted);
+    font-size: 1.45rem;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* ── 16. Assignment Input ──────────────────────────────────── */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 0.78rem;
+}
+
+.assignment-input {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.82rem 1.05rem;
+    border-radius: 999px;
+    border: 1.5px solid rgba(0, 0, 0, 0.09);
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text);
+    font-size: 0.86rem;
+    outline: none;
+    transition: all var(--t-fast);
+}
+
+.assignment-input::placeholder {
+    color: var(--text-faint);
+}
+
+.assignment-input:focus {
+    border-color: rgba(124, 58, 237, 0.40);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.10), 0 8px 30px rgba(100, 80, 200, 0.12);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+    .actions { flex-direction: column; }
+    .assignment-input { min-width: 100%; }
+}
+
+/* ── 17. Profile Page (Glass Cards) ───────────────────────── */
+#profile-page { padding-top: 1.75rem; }
+
+.profile-container {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.3fr);
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+@media (max-width: 880px) {
+    .profile-container { grid-template-columns: minmax(0, 1fr); gap: 1.15rem; }
+}
+
+.profile-card {
+    background: rgba(255, 255, 255, 0.52);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    border-radius: var(--r-lg);
+    padding: 1.8rem 1.55rem;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 8px 32px rgba(100, 80, 200, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 40%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, transparent 70%);
+    border-radius: 22px 0 0 0;
+    pointer-events: none;
+}
+
+.profile-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.40), rgba(79, 126, 248, 0.40), transparent);
+}
+
+.profile-picture {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    margin: 0 auto 0.85rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #7c3aed 0%, #4f7ef8 55%, #0ea5e9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 2.5rem;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.20), 0 0 0 8px rgba(124, 58, 237, 0.08), 0 14px 35px rgba(124, 58, 237, 0.25);
+    overflow: hidden;
+    transition: box-shadow var(--t);
+}
+
+.profile-picture:hover {
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.35), 0 0 0 12px rgba(124, 58, 237, 0.12), 0 20px 45px rgba(124, 58, 237, 0.35);
+}
+
+.profile-picture img { width: 100%; height: 100%; object-fit: cover; }
+
+.change-photo {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    padding: 0.40rem 0.5rem;
+    font-size: 0.69rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.70), transparent);
+    color: #a78bfa;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background var(--t-fast);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.change-photo:hover {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.30));
+}
+
+.profile-info h2 {
+    margin-top: 0.45rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.profile-info p {
+    margin-top: 0.18rem;
+    margin-bottom: 0.92rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.analytics-card {
+    background: rgba(255, 255, 255, 0.52);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    border-radius: var(--r-lg);
+    padding: 1.6rem 1.55rem;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 8px 32px rgba(100, 80, 200, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+    position: relative;
+    overflow: hidden;
+}
+
+.analytics-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 40%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, transparent 70%);
+    border-radius: 22px 0 0 0;
+    pointer-events: none;
+}
+
+.analytics-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.35), rgba(79, 126, 248, 0.35), transparent);
+}
+
+.analytics-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.78rem;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+}
+
+.course-progress { margin-bottom: 1rem; }
+
+.course-progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.course-progress-header span:last-child {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+}
+
+.course-progress .progress-bar { background: rgba(0, 0, 0, 0.08); }
+
+.course-progress .progress-fill {
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.45);
+}
+
+.data-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1.1rem;
+}
+
+/* ── 18. Utility ───────────────────────────────────────────── */
+.hidden      { display: none !important; }
+.text-center { text-align: center; }
+.mt-20       { margin-top: 20px; }
+.mb-20       { margin-bottom: 20px; }
+
+/* ── 19. Notification Toast ────────────────────────────────── */
+.notification {
+    position: fixed;
+    left: 50%;
+    bottom: 1.6rem;
+    transform: translateX(-50%) translateY(160%);
+    padding: 0.80rem 1.15rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(24px) saturate(180%);
+    color: #0f0e17;
+    font-size: 0.84rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    box-shadow: 0 10px 40px rgba(120, 80, 220, 0.18), 0 2px 8px rgba(120, 80, 220, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    z-index: 1000;
+    transition: transform 260ms cubic-bezier(0.21, 0.89, 0.38, 0.98);
+    pointer-events: none;
+    white-space: nowrap;
+    border-left: 3px solid var(--primary);
+}
+
+.notification::before {
+    content: "●";
+    font-size: 0.60rem;
+    opacity: 0.85;
+    animation: dot-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    50%       { opacity: 1;    transform: scale(1.4); }
+}
+
+.notification.show { transform: translateX(-50%) translateY(0); }
+
+.notification.error {
+    border-left-color: var(--danger);
+}
+
+/* ── 20. Entrance Animation ────────────────────────────────── */
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 21. Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: #f0eeff; border-radius: 10px; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #a78bfa, #60a5fa);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #7c3aed, #3b82f6);
+}
+
+/* ── 22. Selection ─────────────────────────────────────────── */
+::selection {
+    background: rgba(124, 58, 237, 0.20);
+    color: #5b21b6;
+}
+
+.logo-img {
+    height: 36px;
+    width: 36px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK THEME STYLES
+   ═══════════════════════════════════════════════════════════════ */
+body.dark-theme {
+    background: linear-gradient(150deg, #0f0e17 0%, #1a1025 30%, #0d1b2a 60%, #1a120b 100%);
+    color: #e2e0f0;
+}
+
+body.dark-theme::before {
+    background: 
+        radial-gradient(ellipse 80% 60% at 0%   0%,   rgba(124, 58, 237, 0.12) 0%,  transparent 55%),
+        radial-gradient(ellipse 60% 50% at 100% 0%,   rgba(14, 165, 233, 0.10) 0%,  transparent 50%),
+        radial-gradient(ellipse 70% 60% at 50% 100%,  rgba(236, 72, 153, 0.08) 0%,  transparent 55%),
+        radial-gradient(ellipse 55% 50% at 100% 100%, rgba(249, 115, 22, 0.07) 0%,  transparent 50%);
+}
+
+body.dark-theme::after {
+    background: 
+        radial-gradient(ellipse 55% 55% at 20% 25%, rgba(167, 139, 250, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 50% at 80% 15%, rgba(96, 165, 250, 0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 45% at 55% 85%, rgba(249, 115, 22, 0.08) 0%, transparent 55%);
+}
+
+/* Dark theme - Header */
+body.dark-theme header {
+    background: rgba(15, 14, 23, 0.80);
+    border-bottom: 1px solid rgba(124, 58, 237, 0.20);
+    box-shadow: 0 1px 0 rgba(124, 58, 237, 0.15), 0 4px 24px rgba(0, 0, 0, 0.30);
+}
+
+body.dark-theme header::before {
+    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.30), rgba(96, 165, 250, 0.30), transparent);
+}
+
+/* Dark theme - Nav links */
+body.dark-theme .nav-links {
+    background: rgba(30, 27, 45, 0.65);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+}
+
+body.dark-theme .nav-links a {
+    color: #b8b5d0;
+}
+
+body.dark-theme .nav-links a:hover {
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.15);
+}
+
+body.dark-theme .nav-links a.active {
+    background: linear-gradient(135deg, #7c3aed 0%, #4f7ef8 100%);
+    color: #fff;
+}
+
+body.dark-theme .theme-toggle {
+    border: 1px solid rgba(167, 139, 250, 0.25);
+    background: rgba(30, 27, 45, 0.65);
+    color: #b8b5d0;
+}
+
+body.dark-theme .theme-toggle:hover {
+    border-color: #a78bfa;
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.15);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
+}
+
+/* Dark theme - Login Card */
+body.dark-theme .login-card {
+    background: rgba(25, 22, 40, 0.65);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.40), 0 8px 20px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(124, 58, 237, 0.20);
+}
+
+body.dark-theme .login-card::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 50%, transparent 100%);
+}
+
+body.dark-theme .login-card::after {
+    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.40), transparent);
+}
+
+body.dark-theme .login-card h2 {
+    background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 40%, #60a5fa 75%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.dark-theme .login-card p {
+    color: #a09cc0;
+}
+
+body.dark-theme .login-badge {
+    background: rgba(5, 150, 105, 0.15);
+    border: 1px solid rgba(5, 150, 105, 0.30);
+    color: #34d399;
+}
+
+/* Dark theme - Form elements */
+body.dark-theme .form-group label {
+    color: #a09cc0;
+}
+
+body.dark-theme .form-group input {
+    background: rgba(30, 27, 45, 0.70);
+    border: 1.5px solid rgba(124, 58, 237, 0.20);
+    color: #e2e0f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.20);
+}
+
+body.dark-theme .form-group input::placeholder {
+    color: #6b6880;
+}
+
+body.dark-theme .form-group input:focus {
+    border-color: rgba(167, 139, 250, 0.50);
+    background: rgba(35, 32, 50, 0.85);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.20), 0 8px 30px rgba(0, 0, 0, 0.30);
+}
+
+body.dark-theme .toggle-password {
+    color: #a09cc0;
+}
+
+body.dark-theme .toggle-password:hover {
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.15);
+}
+
+/* Dark theme - Buttons */
+body.dark-theme .btn-secondary {
+    background: rgba(30, 27, 45, 0.65);
+    border: 1.5px solid rgba(124, 58, 237, 0.25);
+    color: #e2e0f0;
+}
+
+body.dark-theme .btn-secondary:hover {
+    border-color: rgba(167, 139, 250, 0.50);
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.15);
+    box-shadow: 0 6px 22px rgba(124, 58, 237, 0.20);
+}
+
+body.dark-theme .btn-outline {
+    background: rgba(30, 27, 45, 0.65);
+    border: 1.5px solid rgba(124, 58, 237, 0.25);
+    color: #a09cc0;
+}
+
+body.dark-theme .btn-outline:hover {
+    border-color: rgba(167, 139, 250, 0.50);
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.15);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.20);
+}
+
+/* Dark theme - Page Titles */
+body.dark-theme .page-title {
+    background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 40%, #60a5fa 75%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+body.dark-theme .page-title-chip {
+    background: rgba(124, 58, 237, 0.15);
+    border: 1px solid rgba(167, 139, 250, 0.30);
+    color: #c4b5fd;
+}
+
+/* Dark theme - Course Cards */
+body.dark-theme .course-card {
+    background: rgba(25, 22, 40, 0.65);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.dark-theme .course-card::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+}
+
+body.dark-theme .course-card::after {
+    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.40), rgba(96, 165, 250, 0.40), transparent);
+}
+
+body.dark-theme .course-card:hover {
+    border-color: rgba(167, 139, 250, 0.45);
+    box-shadow: 0 28px 55px rgba(124, 58, 237, 0.25), 0 10px 22px rgba(124, 58, 237, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.dark-theme .course-content h3 {
+    color: #e2e0f0;
+}
+
+body.dark-theme .course-content p {
+    color: #a09cc0;
+}
+
+/* Dark theme - Week Cards */
+body.dark-theme .week-card {
+    background: rgba(25, 22, 40, 0.65);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.dark-theme .week-card::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+}
+
+body.dark-theme .week-card:hover {
+    border-color: rgba(167, 139, 250, 0.45);
+    box-shadow: 0 22px 55px rgba(124, 58, 237, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.dark-theme .week-header {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(30, 27, 45, 0.70) 100%);
+    color: #e2e0f0;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.20);
+}
+
+body.dark-theme .week-header::before {
+    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.40), rgba(96, 165, 250, 0.40), transparent);
+}
+
+body.dark-theme .week-header span {
+    background: rgba(30, 27, 45, 0.65);
+    border: 1px solid rgba(124, 58, 237, 0.30);
+    color: #c4b5fd;
+}
+
+body.dark-theme .week-header.locked {
+    background: linear-gradient(135deg, rgba(100, 100, 120, 0.10) 0%, rgba(30, 27, 45, 0.60) 100%);
+}
+
+/* Dark theme - Video Container */
+body.dark-theme .video-container {
+    background: radial-gradient(circle at top, rgba(124, 58, 237, 0.12), rgba(25, 22, 40, 0.70));
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(124, 58, 237, 0.20);
+}
+
+body.dark-theme .locked-overlay {
+    background: radial-gradient(circle at center, rgba(25, 22, 40, 0.40), rgba(15, 14, 23, 0.90));
+    color: #a09cc0;
+}
+
+/* Dark theme - Assignment Input */
+body.dark-theme .assignment-input {
+    background: rgba(30, 27, 45, 0.70);
+    border: 1.5px solid rgba(124, 58, 237, 0.20);
+    color: #e2e0f0;
+}
+
+body.dark-theme .assignment-input::placeholder {
+    color: #6b6880;
+}
+
+body.dark-theme .assignment-input:focus {
+    border-color: rgba(167, 139, 250, 0.50);
+    background: rgba(35, 32, 50, 0.85);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.20), 0 8px 30px rgba(0, 0, 0, 0.30);
+}
+
+/* Dark theme - Profile Card */
+body.dark-theme .profile-card {
+    background: rgba(25, 22, 40, 0.65);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.dark-theme .profile-card::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+}
+
+body.dark-theme .profile-card::after {
+    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.40), rgba(96, 165, 250, 0.40), transparent);
+}
+
+body.dark-theme .profile-info h2 {
+    color: #e2e0f0;
+}
+
+body.dark-theme .profile-info p {
+    color: #a09cc0;
+}
+
+/* Dark theme - Analytics Card */
+body.dark-theme .analytics-card {
+    background: rgba(25, 22, 40, 0.65);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.dark-theme .analytics-card::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+}
+
+body.dark-theme .analytics-card::after {
+    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35), transparent);
+}
+
+body.dark-theme .analytics-card h3 {
+    color: #a09cc0;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.25);
+}
+
+body.dark-theme .course-progress-header {
+    color: #e2e0f0;
+}
+
+body.dark-theme .course-progress-header span:last-child {
+    color: #a09cc0;
+}
+
+body.dark-theme .course-progress .progress-bar {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Dark theme - Progress bar */
+body.dark-theme .progress-bar {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-theme .progress-label {
+    color: #a09cc0;
+}
+
+/* Dark theme - Notification */
+body.dark-theme .notification {
+    background: rgba(25, 22, 40, 0.92);
+    color: #e2e0f0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.50), 0 2px 8px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #a78bfa;
+}
+
+body.dark-theme .notification.error {
+    border-left-color: #f87171;
+}
+
+/* Dark theme - Mobile nav */
+@media (max-width: 768px) {
+    body.dark-theme .nav-links {
+        background: rgba(20, 17, 32, 0.96);
+        border: 1px solid rgba(124, 58, 237, 0.30);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.50);
+    }
+    
+    body.dark-theme .hamburger {
+        color: #e2e0f0;
+    }
+    
+    body.dark-theme .hamburger:hover {
+        color: #c4b5fd;
+    }
+}
+
+/* Dark theme - Scrollbar */
+body.dark-theme::-webkit-scrollbar-track {
+    background: #1a1025;
+}
+
+body.dark-theme::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #5b21b6, #3b82f6);
+}
+
+body.dark-theme::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #7c3aed, #4f7ef8);
+}
+
+/* Dark theme - Selection */
+body.dark-theme ::selection {
+    background: rgba(167, 139, 250, 0.30);
+    color: #e2e0f0;
+}
+
+    </style>
+</head>
+
+<body>
+    
+    <header id="header" class="hidden">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+            <img src="project-root/assets/bee.png" alt="BeeSkilled Logo" class="logo-img" >
+            <span>BeeSkilled LMS</span>
+        </div>
+                
+                <button class="hamburger" id="hamburger-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="nav-links">
+                    <a href="#" id="dashboard-link" class="active">Dashboard</a>
+                    <a href="studentbenefit.html" id="benefits-link" target="_blank">Student Benefits</a>
+                    <a href="#" id="profile-link">Profile</a>
+                    <a href="https://roadmap.sh" target="_blank" id="roadmap-link">Roadmap</a>
+                    <a href="#" id="resume-link">Resume Builder</a>
+                    <a href="#" id="quiz-link">Take Quiz</a>
+                   
+                    <a href="#" id="logout-link">Logout</a>
+                </div>
+                
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+    
+    <section id="login-page" class="container">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-badge">
+                    <i class="fas fa-shield-check"></i> Secure BeeSkilled Access
+                </div>
+                <h2>Welcome to BeeSkilled LMS</h2>
+                <p>Sign in to continue learning with curated courses, weekly content and tracked progress.</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username"><i class="fas fa-user"></i> Username</label>
+                        <input type="text" id="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password</label>
+                        <div class="password-container">
+                            <input type="password" id="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" id="toggle-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+            </div>
+            <div class="login-hero">
+                <div class="login-hero-badge">MSME & AICTE Approved</div>
+                <div class="login-hero-title">Structured, weekly learning experiences.</div>
+                <div class="login-hero-sub">
+                    Complete your 4-week roadmap with videos, study materials, assignments and mini-projects.
+                </div>
+                <div class="login-hero-metrics">
+                    <div class="login-hero-pill">
+                        <strong>12+ Courses</strong> Programming, Data, Cloud & more
+                    </div>
+                    <div class="login-hero-pill">
+                        <strong>Weekly Tracks</strong> Study materials & tasks
+                    </div>
+                    <div class="login-hero-pill">
+                        <strong>Smart Progress</strong> Track week-by-week completion
+                    </div>
+                    <div class="login-hero-pill">
+                        <strong>Certificate</strong> On course completion
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="dashboard-page" class="container hidden">
+        <h1 class="page-title">
+            My Courses
+            <span class="page-title-chip">Student View</span>
+        </h1>
+        <div class="courses-grid" id="courses-container">
+            <!-- Courses will be dynamically added here -->
+        </div>
+    </section>
+    
+    <section id="course-page" class="container hidden">
+        <div class="page-header">
+            <button class="btn btn-outline back-btn" id="back-to-dashboard">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+            <h1 class="page-title" id="course-title">Course Title</h1>
+        </div>
+        <div class="weeks-container" id="weeks-container">
+            <!-- Weeks will be dynamically added here -->
+        </div>
+    </section>
+    
+    <section id="profile-page" class="container hidden">
+        <h1 class="page-title">
+            My Profile
+            <span class="page-title-chip">Progress & Analytics</span>
+        </h1>
+        <div class="profile-container">
+            <div class="profile-card">
+                <div class="profile-picture" id="profile-picture">
+                    <i class="fas fa-user"></i>
+                    <div class="change-photo" id="change-photo-btn">Change Photo</div>
+                </div>
+                <div class="profile-info">
+                    <h2 id="profile-name">Student Name</h2>
+                    <p id="profile-email">student@example.com</p>
+                    <button class="btn btn-outline" id="edit-profile-btn">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+            <div class="analytics-card">
+                <h3>Course Analytics</h3>
+                <div id="profile-courses">
+                    <!-- Course progress will be dynamically added here -->
+                </div>
+                <div class="data-actions">
+                    <button class="btn btn-primary" id="export-data">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
+                    <button class="btn btn-outline" id="import-data">
+                        <i class="fas fa-upload"></i> Import Data
+                    </button>
+                    <input type="file" id="import-file" class="hidden" accept=".json">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="notification" id="notification">
+        Operation completed successfully!
+    </div>
+    
+    <input type="file" id="profile-picture-input" class="hidden" accept="image/*">
+    
+    <script>
+        // Data structure and initialization
+        const LMS = {
+            // Current user
+            currentUser: null,
+            
+            // Course catalog with individual YouTube videos
+            courseCatalog: [{
+                id: 'c-programming',
+                title: 'C Programming',
+                description: 'Master the fundamentals of C programming language',
+                pdfFiles: {
+                    1: 'study_materials/c-programming/week 1.zip',
+                    2: 'study_materials/c-programming/week 2.zip',
+                    3: 'study_materials/c-programming/week 3.zip',
+                    4: 'study_materials/c-programming/week4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/KJgsSFOSQv0',
+                    2: 'https://www.youtube.com/embed/87SH2Cn0s9A',
+                    3: 'https://www.youtube.com/embed/irqbmMNs2Bo',
+                    4: 'https://www.youtube.com/embed/Bz4MxDeEM6k'
+                }
+            }, {
+                id: 'cpp',
+                title: 'C++ Programming',
+                description: 'Learn object-oriented programming with C++',
+                pdfFiles: {
+                    1: 'study_materials/cpp/week 1.zip',
+                    2: 'study_materials/cpp/week 2.zip',
+                    3: 'study_materials/cpp/week 3.zip',
+                    4: 'study_materials/cpp/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/-TkoO8Z07hI',
+                    2: 'https://www.youtube.com/embed/vLnPwxZdW4Y',
+                    3: 'https://www.youtube.com/embed/ZzaPdXTrSb8',
+                    4: 'https://www.youtube.com/embed/iVLQeWbgbXs'
+                }
+            }, {
+                id: 'python',
+                title: 'Python Programming',
+                description: 'Start your journey with versatile Python language',
+                pdfFiles: {
+                    1: 'study_materials/python/week 1.zip',
+                    2: 'study_materials/python/week 2.zip',
+                    3: 'study_materials/python/week 3.zip',
+                    4: 'study_materials/python/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/rfscVS0vtbw',
+                    2: 'https://www.youtube.com/embed/HeW-D6KpDwY',
+                    3: 'https://www.youtube.com/embed/8ext9G7xspg',
+                    4: 'https://www.youtube.com/embed/fqF9M92jzUo'
+                }
+            }, {
+                id: 'web-dev',
+                title: 'Web Development',
+                description: 'Build websites with HTML, CSS, and JavaScript',
+                pdfFiles: {
+                    1: 'study_materials/web-dev/week 1.zip',
+                    2: 'study_materials/web-dev/week 2.zip',
+                    3: 'study_materials/web-dev/week 3.zip',
+                    4: 'study_materials/web-dev/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/kUMe1FH4CHE',
+                    2: 'https://www.youtube.com/embed/HGTJBPNC-Gw',
+                    3: 'https://www.youtube.com/embed/PkZNo7MFNFg',
+                    4: 'https://www.youtube.com/embed/krfUjg0S2uI'
+                }
+            }, {
+                id: 'data-science',
+                title: 'Data Science with Python',
+                description: 'Analyze and visualize data using Python',
+                pdfFiles: {
+                    1: 'study_materials/data-science/week 1.zip',
+                    2: 'study_materials/data-science/week 2.zip',
+                    3: 'study_materials/data-science/week 3.zip',
+                    4: 'study_materials/data-science/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/ua-CiDNNj30',
+                    2: 'https://www.youtube.com/embed/r-uOLxNrNk8',
+                    3: 'https://www.youtube.com/embed/aircAruvnKk',
+                    4: 'https://www.youtube.com/embed/LHBE6Q9XlzI'
+                }
+            }, {
+                id: 'ml-ai',
+                title: 'Machine Learning & AI',
+                description: 'Introduction to ML algorithms and AI concepts',
+                pdfFiles: {
+                    1: 'study_materials/ml-ai/week 1.zip',
+                    2: 'study_materials/ml-ai/week 2.zip',
+                    3: 'study_materials/ml-ai/week 3.zip',
+                    4: 'study_materials/ml-ai/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/7eh4d6sabA0',
+                    2: 'https://www.youtube.com/embed/VCJdg7YBbAQ',
+                    3: 'https://www.youtube.com/embed/i_LwzRVP7bg',
+                    4: 'https://www.youtube.com/embed/Hr06nSA-qww'
+                }
+            }, {
+                id: 'mern',
+                title: 'Full Stack Web Development (MERN)',
+                description: 'Build modern web apps with MongoDB, Express, React, Node.js',
+                pdfFiles: {
+                    1: 'study_materials/mern/week 1.zip',
+                    2: 'study_materials/mern/week 2.zip',
+                    3: 'study_materials/mern/week 3.zip',
+                    4: 'study_materials/mern/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/98BzS5Oz5E4',
+                    2: 'https://www.youtube.com/embed/CvCiNeLnZ00',
+                    3: 'https://www.youtube.com/embed/RGKi6LSPDLU',
+                    4: 'https://www.youtube.com/embed/XuFDcZABiDQ'
+                }
+            }, {
+                id: 'java',
+                title: 'Java Programming',
+                description: 'Learn Java with OOP concepts and real projects',
+                pdfFiles: {
+                    1: 'study_materials/java/week 1.zip',
+                    2: 'study_materials/java/week 2.zip',
+                    3: 'study_materials/java/week 3.zip',
+                    4: 'study_materials/java/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/xk4_1vDrzzo',
+                    2: 'https://www.youtube.com/embed/eTXd89t8ngI',
+                    3: 'https://www.youtube.com/embed/5o3fMLPY7qY',
+                    4: 'https://www.youtube.com/embed/UmnCZ7-9yDY'
+                }
+            }, {
+                id: 'dsa',
+                title: 'Data Structures & Algorithms',
+                description: 'Master essential DSA concepts for coding interviews',
+                pdfFiles: {
+                    1: 'study_materials/dsa/week 1.zip',
+                    2: 'study_materials/dsa/week 2.zip',
+                    3: 'study_materials/dsa/week 3.zip',
+                    4: 'study_materials/dsa/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/8hly31xKli0',
+                    2: 'https://www.youtube.com/embed/RBSGKlAvoiM',
+                    3: 'https://www.youtube.com/embed/nqowUJzG-iM',
+                    4: 'https://www.youtube.com/embed/0IAPZzGSbME'
+                }
+            }, {
+                id: 'flutter',
+                title: 'Mobile App Development (Flutter)',
+                description: 'Build cross-platform mobile apps with Flutter',
+                pdfFiles: {
+                    1: 'study_materials/flutter/week 1.zip',
+                    2: 'study_materials/flutter/week 2.zip',
+                    3: 'study_materials/flutter/week 3.zip',
+                    4: 'study_materials/flutter/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/1ukSR1GRtMU',
+                    2: 'https://www.youtube.com/embed/x0uinJvhNxI',
+                    3: 'https://www.youtube.com/embed/VPvVD8t02U8',
+                    4: 'https://www.youtube.com/embed/D4nhaszNW4o'
+                }
+            }, {
+                id: 'aws',
+                title: 'Cloud Computing with AWS',
+                description: 'Deploy and manage applications on AWS cloud',
+                pdfFiles: {
+                    1: 'study_materials/aws/week1.zip',
+                    2: 'study_materials/aws/week2.zip',
+                    3: 'study_materials/aws/week3.zip',
+                    4: 'study_materials/aws/week4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/ubCNZRNjhyo',
+                    2: 'https://www.youtube.com/embed/3hLmDS179YE',
+                    3: 'https://www.youtube.com/embed/Tg2krHXHzBc',
+                    4: 'https://www.youtube.com/embed/3jZ5vnv-LZc'
+                }
+            }, {
+                id: 'data-analyst',
+                title: 'Data Analyst',
+                description: 'Become a data analyst with statistical and visualization skills',
+                pdfFiles: {
+                    1: 'study_materials/data-analyst/week 1.zip',
+                    2: 'study_materials/data-analyst/week 2.zip',
+                    3: 'study_materials/data-analyst/week 3.zip',
+                    4: 'study_materials/data-analyst/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/NMuV2o9yrE4',
+                    2: 'https://www.youtube.com/embed/7mz73uXD9DA',
+                    3: 'https://www.youtube.com/embed/rfscVS0vtbw',
+                    4: 'https://www.youtube.com/embed/3u7MQz1EyPY'
+                }
+            }, {
+                id: 'power-bi',
+                title: 'Power BI',
+                description: 'Create interactive dashboards and business intelligence reports',
+                pdfFiles: {
+                    1: 'study_materials/power-bi/week 1.zip',
+                    2: 'study_materials/power-bi/week 2.zip',
+                    3: 'study_materials/power-bi/week 3.zip',
+                    4: 'study_materials/power-bi/week 4.zip'
+                },
+                youtubeVideos: {
+                    1: 'https://www.youtube.com/embed/3u7MQz1EyPY',
+                    2: 'https://www.youtube.com/embed/AGrl-H87pRU',
+                    3: 'https://www.youtube.com/embed/5X5LWcLtkzg',
+                    4: 'https://www.youtube.com/embed/mmxVCFceQgU'
+                }
+            }],
+            
+            // Initialize the application
+            init: function() {
+                this.loadTheme();
+                this.bindEvents();
+                this.checkAuthStatus();
+                
+                // Ensure login page is visible if no user is logged in
+                if (!this.currentUser) {
+                    this.showPage('login-page');
+                    document.getElementById('header').classList.add('hidden');
+                }
+                
+                // Listen for storage events to sync across tabs
+                window.addEventListener('storage', this.handleStorageEvent.bind(this));
+                
+                // HANDLE BROWSER BACK / FORWARD
+                window.addEventListener('popstate', (e) => {
+                    if (e.state && e.state.page) {
+                        LMS.showPage(e.state.page, false);
+                    } else {
+                        LMS.showPage('dashboard-page', false);
+                    }
+                });
+            },
+            
+            isValidDriveLink: function (url) {
+                const driveRegex = /^(https:\/\/)?(drive\.google\.com)\/(file\/d\/|open\?id=|drive\/folders\/)/i;
+                return driveRegex.test(url);
+            },
+            
+            // Load saved theme from localStorage
+loadTheme: function() {
+    const savedTheme = localStorage.getItem('BeeSkilled-theme') || 'light';
+    document.body.className = `${savedTheme}-theme`;
+    this.updateThemeIcon(savedTheme);
+},
+            // Update theme icon based on current theme
+updateThemeIcon: function(theme) {
+    const themeIcon = document.querySelector('#theme-toggle i');
+    themeIcon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+},
+            
+            // Bind event listeners
+            bindEvents: function() {
+                // Theme toggle
+                document.getElementById('theme-toggle').addEventListener('click', this.toggleTheme.bind(this));
+                
+                // Login form
+                document.getElementById('login-form').addEventListener('submit', this.handleLogin.bind(this));
+                
+                // Show password toggle
+                document.getElementById('toggle-password').addEventListener('click', this.togglePasswordVisibility.bind(this));
+                
+                // Navigation
+                document.getElementById('dashboard-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showPage('dashboard-page', true);
+                    this.updateNavActive('dashboard-link');
+                    this.renderDashboard();
+                });
+                
+                document.getElementById('profile-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showPage('profile-page');
+                    this.updateNavActive('profile-link');
+                    this.renderProfile();
+                });
+                
+                // Resume Builder nav
+                document.getElementById('resume-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = 'resume-builder.html';
+                });
+                
+                // Take Quiz nav
+                document.getElementById('quiz-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = 'project-root/index.html';
+                });
+                
+                document.getElementById('logout-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.handleLogout();
+                });
+                
+                // Back to dashboard from course page
+                document.getElementById('back-to-dashboard').addEventListener('click', () => {
+                    this.showPage('dashboard-page');
+                    this.updateNavActive('dashboard-link');
+                });
+                
+                // Data export/import
+                document.getElementById('export-data').addEventListener('click', this.exportData.bind(this));
+                document.getElementById('import-data').addEventListener('click', () => {
+                    document.getElementById('import-file').click();
+                });
+                
+                document.getElementById('import-file').addEventListener('change', this.importData.bind(this));
+                
+                // Profile picture change
+                document.getElementById('change-photo-btn').addEventListener('click', () => {
+                    document.getElementById('profile-picture-input').click();
+                });
+                
+                document.getElementById('profile-picture-input').addEventListener('change', this.changeProfilePicture.bind(this));
+                
+                // Edit profile button
+                document.getElementById('edit-profile-btn').addEventListener('click', this.editProfile.bind(this));
+                
+                // Hamburger toggle (mobile menu)
+                document.getElementById('hamburger-btn').addEventListener('click', () => {
+                    document.querySelector('.nav-links').classList.toggle('show');
+                });
+                
+                // Close menu after clicking a nav link (mobile)
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        document.querySelector('.nav-links').classList.remove('show');
+                    });
+                });
+            },
+            
+            // Toggle password visibility
+            togglePasswordVisibility: function() {
+                const passwordInput = document.getElementById('password');
+                const toggleButton = document.getElementById('toggle-password');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                } else {
+                    passwordInput.type = 'password';
+                    toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
+                }
+            },
+            
+toggleTheme: function() {
+    const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.body.classList.remove(`${currentTheme}-theme`);
+    document.body.classList.add(`${newTheme}-theme`);
+    
+    localStorage.setItem('BeeSkilled-theme', newTheme);
+    this.updateThemeIcon(newTheme);
+},
+            
+            // Handle login form submission
+            handleLogin: function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                
+                // Full Access (Standard Password)
+                if (password === `${username}@skilled123`) {
+                    this.authenticateUser(username, 'full');
+                } 
+                // Restricted Access (New 2026 Password)
+                else if (password === `${username}@skilled2026`) {
+                    this.authenticateUser(username, 'restricted');
+                } 
+                else {
+                    this.showNotification('Invalid credentials. Please try again.', true);
+                }
+            },
+            
+            authenticateUser: function(username, role = 'full') {
+                let users = JSON.parse(localStorage.getItem('BeeSkilled-users')) || {};
+                
+                // Create user if doesn't exist
+                if (!users[username]) {
+                    users[username] = this.createNewUser(username);
+                }
+                
+                // Save role to user object (important for persistence)
+                users[username].role = role;
+                localStorage.setItem('BeeSkilled-users', JSON.stringify(users));
+                
+                // Set current user
+                this.currentUser = users[username];
+                localStorage.setItem('BeeSkilled-current-user', username);
+                
+                // Show header and dashboard
+                document.getElementById('header').classList.remove('hidden');
+                this.showPage('dashboard-page');
+                this.updateNavActive('dashboard-link');
+                this.renderDashboard();
+                
+                // Apply Access Controls based on role
+                this.applyAccessControls();
+                
+                this.showNotification(`Welcome back, ${username}!`);
+            },
+            
+            // Apply access controls
+            applyAccessControls: function() {
+                const resumeLink = document.getElementById('resume-link');
+                const certLink = document.getElementById('certificate-link');
+                const benefitsLink = document.getElementById('benefits-link');
+                
+                if (this.currentUser && this.currentUser.role === 'restricted') {
+                    if (resumeLink) resumeLink.classList.add('hidden');
+                    if (certLink) certLink.classList.add('hidden');
+                    if (benefitsLink) benefitsLink.classList.add('hidden');
+                } else {
+                    if (resumeLink) resumeLink.classList.remove('hidden');
+                    if (certLink) certLink.classList.remove('hidden');
+                    if (benefitsLink) benefitsLink.classList.remove('hidden');
+                }
+            },
+            
+            // Create a new user with default data
+            createNewUser: function(username) {
+                // Initialize course progress for all courses
+                const courseProgress = {};
+                this.courseCatalog.forEach(course => {
+                    courseProgress[course.id] = {
+                        weeks: {
+                            1: {
+                                completed: false,
+                                assignmentSubmitted: false,
+                                assignmentLink: ''
+                            },
+                            2: {
+                                completed: false,
+                                assignmentSubmitted: false,
+                                assignmentLink: ''
+                            },
+                            3: {
+                                completed: false,
+                                assignmentSubmitted: false,
+                                assignmentLink: ''
+                            },
+                            4: {
+                                completed: false,
+                                assignmentSubmitted: false,
+                                assignmentLink: ''
+                            }
+                        },
+                        currentWeek: 1
+                    };
+                });
+                
+                return {
+                    username: username,
+                    email: `${username}@BeeSkilled.com`,
+                    profilePicture: null,
+                    enrolledCourses: this.courseCatalog.map(course => ({
+                        id: course.id,
+                        title: course.title,
+                        description: course.description,
+                        progress: 0
+                    })),
+                    courseProgress: courseProgress,
+                    role: 'full' // Default role
+                };
+            },
+            
+            // Check if user is already logged in
+            checkAuthStatus: function() {
+                const currentUsername = localStorage.getItem('BeeSkilled-current-user');
+                if (currentUsername) {
+                    const users = JSON.parse(localStorage.getItem('BeeSkilled-users')) || {};
+                    if (users[currentUsername]) {
+                        this.currentUser = users[currentUsername];
+                        document.getElementById('header').classList.remove('hidden');
+                        this.showPage('dashboard-page');
+                        this.updateNavActive('dashboard-link');
+                        this.renderDashboard();
+                        
+                        // Apply restrictions on page load
+                        this.applyAccessControls();
+                    } else {
+                        // No valid user found, clear storage and show login
+                        localStorage.removeItem('BeeSkilled-current-user');
+                        this.showPage('login-page');
+                        document.getElementById('header').classList.add('hidden');
+                    }
+                } else {
+                    // No user logged in - ensure login page is shown
+                    this.showPage('login-page');
+                    document.getElementById('header').classList.add('hidden');
+                }
+            },
+            
+            // Handle logout
+            handleLogout: function() {
+                this.currentUser = null;
+                localStorage.removeItem('BeeSkilled-current-user');
+                document.getElementById('header').classList.add('hidden');
+                this.showPage('login-page');
+                document.getElementById('login-form').reset();
+                this.showNotification('You have been logged out successfully.');
+            },
+            
+            // Show specific page and hide others
+            showPage: function(pageId, push = true) {
+                // Hide all sections
+                const sections = ['login-page', 'dashboard-page', 'course-page', 'profile-page'];
+                sections.forEach(id => {
+                    const section = document.getElementById(id);
+                    if (section) section.classList.add('hidden');
+                });
+                
+                // Show the requested page
+                const page = document.getElementById(pageId);
+                if (!page) return;
+                
+                page.classList.remove('hidden');
+                
+                // scroll to top every page change
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // browser history
+                if (push) {
+                    history.pushState({ page: pageId }, '', `#${pageId}`);
+                }
+            },
+            
+            // Update active navigation link
+            updateNavActive: function(activeLinkId) {
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                const activeLink = document.getElementById(activeLinkId);
+                if (activeLink) activeLink.classList.add('active');
+            },
+            
+            // Render dashboard with enrolled courses
+            renderDashboard: function() {
+                const container = document.getElementById('courses-container');
+                container.innerHTML = '';
+                
+                // Image mapping based on your img folder
+                const imageMap = {
+                    'c-programming': 'img/c-programming.jpg',
+                    'cpp': 'img/cpp-programming.jpg',
+                    'python': 'img/python-programming.jpg',
+                    'web-dev': 'img/web-development.jpg',
+                    'data-science': 'img/data-science.jpg',
+                    'ml-ai': 'img/machine-learning.jpg',
+                    'mern': 'img/full-stack.jpg',
+                    'java': 'img/java-programming.jpg',
+                    'dsa': 'img/dsa.jpg',
+                    'flutter': 'img/flutter.jpg',
+                    'aws': 'img/cloud-computing.jpg',
+                    'data-analyst': 'img/data-analyst.jpg',
+                    'power-bi': 'img/BI.png'
+                };
+                
+                this.currentUser.enrolledCourses.forEach(course => {
+                    const progress = this.calculateCourseProgress(course.id);
+                    
+                    // Update progress in course object
+                    course.progress = progress;
+                    
+                    const courseCard = document.createElement('div');
+                    courseCard.className = 'course-card';
+                    courseCard.setAttribute('data-course', course.id);
+                    
+                    // image path from mapping
+                    const imagePath = imageMap[course.id] || 'img/BI.png';
+                    
+                    courseCard.innerHTML = `
+                        <div class="course-image">
+                            <img src="${imagePath}" alt="${course.title}">
+                            <div class="course-image-overlay">
+                                
+                                <span class="course-chip">4 Weeks</span>
+                            </div>
+                        </div>
+                        <div class="course-content">
+                            <h3>${course.title}</h3>
+                            <p>${course.description}</p>
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Progress</span>
+                                    <span>${progress}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${progress}%"></div>
+                                </div>
+                            </div>
+                            <div class="btn btn-primary continue-btn">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Event listener
+                    courseCard.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const courseId = courseCard.getAttribute('data-course');
+                        this.openCourse(courseId);
+                    });
+                    
+                    container.appendChild(courseCard);
+                });
+                
+                // Save updated progress
+                this.saveUserData();
+            },
+            
+            // Calculate course progress percentage
+            calculateCourseProgress: function(courseId) {
+                const progress = this.currentUser.courseProgress[courseId];
+                if (!progress) return 0;
+                
+                const weeks = progress.weeks;
+                let completedWeeks = 0;
+                
+                for (let week in weeks) {
+                    if (weeks[week].completed) completedWeeks++;
+                }
+                
+                return Math.round((completedWeeks / 4) * 100);
+            },
+            
+            // Open course page
+            openCourse: function(courseId) {
+                const course = this.currentUser.enrolledCourses.find(c => c.id === courseId);
+                if (!course) return;
+                
+                document.getElementById('course-title').textContent = course.title;
+                this.renderCourseWeeks(courseId);
+                this.showPage('course-page', true);
+            },
+            
+            renderCourseWeeks: function(courseId) {
+                const container = document.getElementById('weeks-container');
+                container.innerHTML = '';
+                
+                const courseProgress = this.currentUser.courseProgress[courseId];
+                const course = this.courseCatalog.find(c => c.id === courseId);
+                
+                for (let week = 1; week <= 4; week++) {
+                    const weekData = courseProgress.weeks[week];
+                    const isLocked = week > 1 && !courseProgress.weeks[week - 1].completed;
+                    
+                    const videoUrl = course.youtubeVideos ? course.youtubeVideos[week] : 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+                    
+                    const weekCard = document.createElement('div');
+                    weekCard.className = 'week-card';
+                    weekCard.setAttribute('data-course-id', courseId);
+                    weekCard.setAttribute('data-week', week);
+                    weekCard.innerHTML = `
+                        <div class="week-header ${isLocked ? 'locked' : ''}">
+                            <h3>Week ${week}</h3>
+                            ${isLocked ?
+                                '<span><i class="fas fa-lock"></i> Locked</span>' :
+                                (weekData.completed ?
+                                    '<span><i class="fas fa-check-circle"></i> Completed</span>' :
+                                    '<span><i class="fas fa-circle-notch"></i> In Progress</span>')
+                            }
+                        </div>
+                        <div class="week-content">
+                            <div class="video-container">
+                                <iframe src="${videoUrl}" 
+                                        title="Week ${week} Video - ${course.title}" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen>
+                                </iframe>
+                                ${isLocked ? '<div class="locked-overlay"><i class="fas fa-lock"></i></div>' : ''}
+                            </div>
+                            <div class="actions">
+                                <button class="btn btn-secondary study-material-btn" data-week="${week}" ${isLocked ? 'disabled' : ''}>
+                                    <i class="fas fa-download"></i> Study Material
+                                </button>
+                                <input type="text" class="assignment-input" 
+                                       placeholder="Paste your assignment link here" 
+                                       value="${weekData.assignmentLink || ''}"
+                                       data-week="${week}"
+                                       ${isLocked || weekData.assignmentSubmitted ? 'disabled' : ''}>
+                                <button class="btn btn-success submit-assignment-btn" 
+                                        data-week="${week}" 
+                                        ${isLocked || weekData.assignmentSubmitted ? 'disabled' : ''}>
+                                    ${weekData.assignmentSubmitted ?
+                                        '<i class="fas fa-check"></i> Submitted' :
+                                        '<i class="fas fa-paper-plane"></i> Submit Assignment'}
+                                </button>
+                                <button class="btn btn-primary mark-complete-btn" 
+                                        data-week="${week}" 
+                                        ${isLocked || !weekData.assignmentSubmitted || weekData.completed ? 'disabled' : ''}>
+                                    ${weekData.completed ?
+                                        '<i class="fas fa-check-double"></i> Completed' :
+                                        '<i class="fas fa-flag-checkered"></i> Mark Complete'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(weekCard);
+                }
+                
+                this.bindWeekActions(courseId);
+            },
+            
+            bindWeekActions: function(courseId) {
+                // FIX: Bind study material buttons
+                document.querySelectorAll('.study-material-btn').forEach(btn => {
+                    // Remove old event listeners by cloning
+                    const newBtn = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(newBtn, btn);
+                    
+                    if (!newBtn.disabled) {
+                        newBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const week = parseInt(e.currentTarget.getAttribute('data-week'));
+                            this.downloadStudyMaterial(courseId, week);
+                        });
+                    }
+                });
+                
+                // FIX: Bind submit assignment buttons
+                document.querySelectorAll('.submit-assignment-btn').forEach(btn => {
+                    const newBtn = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(newBtn, btn);
+                    
+                    if (!newBtn.disabled) {
+                        newBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const week = parseInt(e.currentTarget.getAttribute('data-week'));
+                            // Get the input field from the same actions container
+                            const actionsContainer = e.currentTarget.closest('.actions');
+                            const input = actionsContainer.querySelector('.assignment-input');
+                            
+                            const link = input.value.trim();
+                            
+                            if (link === '') {
+                                this.showNotification('Please enter an assignment link', true);
+                                return;
+                            }
+                            
+                            if (!this.isValidDriveLink(link)) {
+                                this.showNotification('Only Google Drive links are allowed!', true);
+                                return;
+                            }
+                            
+                            this.submitAssignment(courseId, week, link);
+                        });
+                    }
+                });
+                
+                // FIX: Bind mark complete buttons
+                document.querySelectorAll('.mark-complete-btn').forEach(btn => {
+                    const newBtn = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(newBtn, btn);
+                    
+                    if (!newBtn.disabled) {
+                        newBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const week = parseInt(e.currentTarget.getAttribute('data-week'));
+                            this.markWeekComplete(courseId, week);
+                        });
+                    }
+                });
+            },
+            
+            downloadStudyMaterial: function(courseId, week) {
+                const course = this.courseCatalog.find(c => c.id === courseId);
+                if (!course || !course.pdfFiles || !course.pdfFiles[week]) {
+                    this.showNotification('Study material not available for this week', true);
+                    return;
+                }
+                
+                const filePath = course.pdfFiles[week];
+                const fileExtension = filePath.split('.').pop().toLowerCase();
+                
+                if (fileExtension === 'zip') {
+                    this.downloadZipFile(courseId, week, filePath);
+                } else if (fileExtension === 'pdf') {
+                    this.downloadPdfFile(courseId, week, filePath);
+                } else {
+                    this.downloadGenericFile(courseId, week, filePath);
+                }
+            },
+            
+            downloadZipFile: function(courseId, week, filePath) {
+                const a = document.createElement('a');
+                a.href = filePath;
+                a.download = `${courseId}-week-${week}-materials.zip`;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                this.showNotification(`ZIP study materials for Week ${week} downloaded!`);
+            },
+            
+            downloadPdfFile: function(courseId, week, filePath) {
+                const a = document.createElement('a');
+                a.href = filePath;
+                a.download = `${courseId}-week-${week}.pdf`;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                this.showNotification(`PDF study materials for Week ${week} downloaded!`);
+            },
+            
+            downloadGenericFile: function(courseId, week, filePath) {
+                const a = document.createElement('a');
+                a.href = filePath;
+                a.download = `${courseId}-week-${week}-materials.${filePath.split('.').pop()}`;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                this.showNotification(`Study materials for Week ${week} downloaded!`);
+            },
+            
+            submitAssignment: function(courseId, week, link) {
+                console.log('Submitting assignment:', courseId, week, link);
+                
+                // Ensure course progress exists
+                if (!this.currentUser.courseProgress[courseId]) {
+                    console.error('Course progress not found for:', courseId);
+                    return;
+                }
+                
+                // Update assignment data
+                this.currentUser.courseProgress[courseId].weeks[week].assignmentSubmitted = true;
+                this.currentUser.courseProgress[courseId].weeks[week].assignmentLink = link;
+                
+                // Save to localStorage
+                this.saveUserData();
+                
+                // Re-render the weeks
+                this.renderCourseWeeks(courseId);
+                
+                // Show success notification
+                this.showNotification(`Assignment for Week ${week} submitted successfully!`);
+            },
+            
+            markWeekComplete: function(courseId, week) {
+                console.log('Marking week complete:', courseId, week);
+                
+                // Ensure course progress exists
+                if (!this.currentUser.courseProgress[courseId]) {
+                    console.error('Course progress not found for:', courseId);
+                    return;
+                }
+                
+                // Mark week as completed
+                this.currentUser.courseProgress[courseId].weeks[week].completed = true;
+                
+                const courseProgress = this.currentUser.courseProgress[courseId];
+                if (week === courseProgress.currentWeek) {
+                    courseProgress.currentWeek = Math.min(4, week + 1);
+                }
+                
+                // Save to localStorage
+                this.saveUserData();
+                
+                // Re-render the weeks
+                this.renderCourseWeeks(courseId);
+                
+                // Show success notification
+                this.showNotification(`Week ${week} marked as complete!`);
+                
+                if (week === 4) {
+                    setTimeout(() => {
+                        this.showNotification('🎉 Congratulations! You have completed this course!');
+                    }, 1000);
+                }
+            },
+            
+            renderProfile: function() {
+                document.getElementById('profile-name').textContent = this.currentUser.username;
+                document.getElementById('profile-email').textContent = this.currentUser.email;
+                
+                const profilePicture = document.getElementById('profile-picture');
+                if (this.currentUser.profilePicture) {
+                    profilePicture.innerHTML = `<img src="${this.currentUser.profilePicture}" alt="Profile Picture">`;
+                } else {
+                    profilePicture.innerHTML = '<i class="fas fa-user"></i>';
+                }
+                profilePicture.innerHTML += '<div class="change-photo" id="change-photo-btn">Change Photo</div>';
+                
+                document.getElementById('change-photo-btn').addEventListener('click', () => {
+                    document.getElementById('profile-picture-input').click();
+                });
+                
+                const container = document.getElementById('profile-courses');
+                container.innerHTML = '';
+                
+                this.currentUser.enrolledCourses.forEach(course => {
+                    const progress = this.calculateCourseProgress(course.id);
+                    
+                    const courseElement = document.createElement('div');
+                    courseElement.className = 'course-progress';
+                    courseElement.innerHTML = `
+                        <div class="course-progress-header">
+                            <span>${course.title}</span>
+                            <span>${progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(courseElement);
+                });
+            },
+            
+            changeProfilePicture: function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                if (!file.type.match('image.*')) {
+                    this.showNotification('Please select an image file', true);
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    this.currentUser.profilePicture = event.target.result;
+                    this.saveUserData();
+                    this.renderProfile();
+                    this.showNotification('Profile picture updated successfully!');
+                };
+                
+                reader.readAsDataURL(file);
+                e.target.value = '';
+            },
+            
+            editProfile: function() {
+                const newName = prompt('Enter your new name:', this.currentUser.username);
+                if (newName && newName.trim() !== '') {
+                    this.currentUser.username = newName.trim();
+                    this.saveUserData();
+                    this.renderProfile();
+                    this.showNotification('Profile updated successfully!');
+                }
+            },
+            
+            // Export user data as JSON
+            exportData: function() {
+                const dataStr = JSON.stringify(this.currentUser, null, 2);
+                const dataBlob = new Blob([dataStr], {
+                    type: 'application/json'
+                });
+                
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `BeeSkilled-data-${this.currentUser.username}.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                
+                this.showNotification('Data exported successfully!');
+            },
+            
+            // Import user data from JSON file
+            importData: function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const importedData = JSON.parse(event.target.result);
+                        
+                        // Validate the imported data structure
+                        if (importedData.username && importedData.enrolledCourses && importedData.courseProgress) {
+                            // Update current user data
+                            const users = JSON.parse(localStorage.getItem('BeeSkilled-users')) || {};
+                            users[this.currentUser.username] = importedData;
+                            localStorage.setItem('BeeSkilled-users', JSON.stringify(users));
+                            
+                            this.currentUser = importedData;
+                            this.renderDashboard();
+                            this.renderProfile();
+                            
+                            this.showNotification('Data imported successfully!');
+                        } else {
+                            this.showNotification('Invalid data file format', true);
+                        }
+                    } catch (error) {
+                        this.showNotification('Error importing data', true);
+                        console.error(error);
+                    }
+                };
+                
+                reader.readAsText(file);
+                e.target.value = ''; // Reset file input
+            },
+            
+            // Save user data to localStorage
+            saveUserData: function() {
+                const users = JSON.parse(localStorage.getItem('BeeSkilled-users')) || {};
+                users[this.currentUser.username] = this.currentUser;
+                localStorage.setItem('BeeSkilled-users', JSON.stringify(users));
+                
+                // Trigger storage event to sync across tabs
+                localStorage.setItem('BeeSkilled-data-update', Date.now().toString());
+            },
+            
+            // Handle storage events for cross-tab synchronization
+            handleStorageEvent: function(e) {
+                if (e.key === 'BeeSkilled-data-update' && this.currentUser) {
+                    // Reload user data from localStorage
+                    const users = JSON.parse(localStorage.getItem('BeeSkilled-users')) || {};
+                    if (users[this.currentUser.username]) {
+                        this.currentUser = users[this.currentUser.username];
+                        
+                        // Update UI based on current page
+                        if (!document.getElementById('dashboard-page').classList.contains('hidden')) {
+                            this.renderDashboard();
+                        } else if (!document.getElementById('course-page').classList.contains('hidden')) {
+                            // Find which course is currently open
+                            const courseTitle = document.getElementById('course-title').textContent;
+                            const course = this.currentUser.enrolledCourses.find(c => c.title === courseTitle);
+                            if (course) {
+                                this.renderCourseWeeks(course.id);
+                            }
+                        } else if (!document.getElementById('profile-page').classList.contains('hidden')) {
+                            this.renderProfile();
+                        }
+                    }
+                }
+            },
+            
+            // Show notification
+            showNotification: function(message, isError = false) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.classList.toggle('error', isError);
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        };
+        
+        function showPage(id) {
+            document.querySelectorAll('.container').forEach(p => {
+                p.classList.add('hidden');
+            });
+
+            document.getElementById(id).classList.remove('hidden');
+        }
+        
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            LMS.init();
+        });
+    </script>
+</body>
+
+</html>

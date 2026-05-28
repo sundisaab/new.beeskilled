@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Student Resume Builder (ATS Friendly)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Simple clean font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- html2pdf (PDF download) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f3f4f6;
+            color: #111827;
+        }
+        
+        .app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* Top header (light background + white text) */
+        
+        header {
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1f2937;
+            /* lighter than pure black */
+            color: #ffffff;
+            /* PURE white text */
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        header span {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        main {
+            flex: 1;
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            align-items: flex-start;
+        }
+        /* Left: Form */
+        
+        .builder {
+            width: 100%;
+            max-width: 360px;
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+            position: sticky;
+            top: 16px;
+            align-self: flex-start;
+        }
+        
+        .builder h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        
+        .builder small {
+            display: block;
+            margin-bottom: 12px;
+            color: #6b7280;
+            font-size: 11px;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 12px;
+            resize: vertical;
+            min-height: 32px;
+        }
+        
+        .form-group textarea {
+            min-height: 60px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            cursor: pointer;
+            border-radius: 999px;
+            border: none;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .btn-primary {
+            background: #111827;
+            color: #f9fafb;
+            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #111827;
+        }
+        
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+        /* Right: Resume Preview */
+        
+        .preview-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .resume-page {
+            background: #ffffff;
+            width: 100%;
+            max-width: 800px;
+            min-height: 1123px;
+            /* approx A4 */
+            margin: 0 auto;
+            padding: 32px 40px;
+            border-radius: 8px;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+            overflow: hidden;
+        }
+        
+        .resume-inner {
+            min-height: calc(100% - 24px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        /* Resume header (name + contact) */
+        
+        .resume-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+            margin-bottom: 4px;
+        }
+        
+        .resume-name {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        
+        .resume-contact-line {
+            font-size: 11px;
+            color: #4b5563;
+            margin-top: 4px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+        }
+        /* Section styling like your PDF */
+        
+        .section {
+            margin-top: 6px;
+        }
+        
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            color: #111827;
+        }
+        
+        .section-title-line {
+            width: 100%;
+            height: 1px;
+            background: #e5e7eb;
+            margin-bottom: 4px;
+        }
+        
+        .section-body {
+            font-size: 11px;
+            color: #111827;
+            line-height: 1.4;
+            white-space: pre-line;
+            /* textarea line breaks visible */
+        }
+        
+        .bold-line {
+            font-weight: 600;
+        }
+        /* Responsive */
+        
+        @media (max-width: 900px) {
+            main {
+                flex-direction: column;
+            }
+            .builder {
+                position: static;
+                max-width: 100%;
+            }
+            .resume-page {
+                max-width: 100%;
+                padding: 20px 16px;
+            }
+        }
+        /* Print (used by html2pdf) */
+        
+        @media print {
+            body {
+                background: #ffffff;
+            }
+            .builder,
+            body>header {
+                display: none !important;
+            }
+            .resume-page {
+                box-shadow: none;
+                margin: 0;
+                border-radius: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <div>
+                <h1>Student Resume Builder</h1>
+                <span>ATS friendly • Single page HTML • PDF export</span>
+            </div>
+        </header>
+
+        <main>
+            <!-- LEFT: FORM -->
+            <section class="builder">
+                <h2>Fill your details</h2>
+                <small>
+         
+      </small>
+
+                <!-- Basic Info -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input id="name" placeholder="e.g., Your Full Name " />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input id="phone" placeholder="+91-XXXXXXXXXX" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input id="email" placeholder="you@example.com" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="github">GitHub</label>
+                        <input id="github" placeholder="github.com/username" />
+                    </div>
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn</label>
+                        <input id="linkedin" placeholder="linkedin.com/in/username" />
+                    </div>
+                </div>
+
+                <!-- SUMMARY -->
+                <div class="form-group">
+                    <label for="summary">SUMMARY</label>
+                    <textarea id="summary" placeholder="B.Tech student in Computer Science (AIML) with a strong foundation in Python and Machine Learning. Passionate about developing intelligent models and solving real-world problems through code and logic."></textarea>
+                </div>
+
+                <!-- EDUCATION -->
+                <div class="form-group">
+                    <label for="education">EDUCATION</label>
+                    <textarea id="education" placeholder="XYZ University  Jun 2022 – Jul 2026&#10;B.Tech, Computer Science (AIML) | Current CGPA: 7.5"></textarea>
+                </div>
+
+                <!-- SKILLS -->
+                <div class="form-group">
+                    <label for="skills">SKILLS (plain text)</label>
+                    <textarea id="skills" placeholder="Programming: Python, SQL, NumPy, Pandas, Matplotlib, Sklearn"></textarea>
+                </div>
+
+                <!-- INTERNSHIP & TRAINING -->
+                <div class="form-group">
+                    <label for="internship">INTERNSHIP & TRAINING</label>
+                    <textarea id="internship" placeholder="Web Dev Intern – XYZ company  Sep 2025 – Feb 2026&#10;"></textarea>
+                </div>
+
+                <!-- PROJECTS -->
+                <div class="form-group">
+                    <label for="projects">PROJECTS</label>
+                    <textarea id="projects" placeholder=" IoT Project (CERTIFICATE & TROPHY)&#10;• Designed ANN model achieving R² = 0.9988 for ethanol–water VLE prediction."></textarea>
+                </div>
+
+                <!-- ACHIEVEMENTS -->
+                <div class="form-group">
+                    <label for="achievements">ACHIEVEMENTS</label>
+                    <textarea id="achievements" placeholder="• Awarded certificate and trophy for best innovation."></textarea>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn-secondary" type="button" id="sampleBtn">
+          Load Sample Data
+        </button>
+                    <button class="btn-primary" type="button" id="downloadBtn">
+          Download as PDF
+        </button>
+                </div>
+            </section>
+
+            <!-- RIGHT: RESUME PREVIEW -->
+            <section class="preview-wrapper">
+                <div class="resume-page" id="resume-preview">
+                    <div class="resume-inner">
+                        <!-- Header -->
+                        <div class="resume-header">
+                            <h1 class="resume-name" id="r-name">YOUR NAME</h1>
+                            <div class="resume-contact-line" id="r-contact">
+                                <span id="r-phone">+91-0000000000</span>
+                                <span>|</span>
+                                <span id="r-email">email@example.com</span>
+                                <span>|</span>
+                                <span id="r-github">Github</span>
+                                <span>|</span>
+                                <span id="r-linkedin">LinkedIn</span>
+                            </div>
+                        </div>
+
+                        <!-- SUMMARY -->
+                        <section class="section">
+                            <div class="section-title">SUMMARY</div>
+                            <div class="section-title-line"></div>
+                            <div class="section-body" id="r-summary">
+                                B.Tech student in Computer Science (AIML) with a strong foundation in Python and Machine Learning. Passionate about developing intelligent models and solving real-world problems through code and logic.
+                            </div>
+                        </section>
+
+                        <!-- EDUCATION -->
+                        <section class="section">
+                            <div class="section-title">EDUCATION</div>
+                            <div class="section-title-line"></div>
+                            <div class="section-body" id="r-education">
+                                XYZ University Jun 2022 – Jul 2026 B.Tech, Computer Science (AIML) | Current CGPA: 7.5
+                            </div>
+                        </section>
+
+                        <!-- SKILLS -->
+                        <section class="section">
+                            <div class="section-title">SKILLS</div>
+                            <div class="section-title-line"></div>
+                            <div class="section-body" id="r-skills">
+                                Programming: Python, SQL, Machine Learning Libraries: NumPy, Pandas, Matplotlib, Sklearn
+                            </div>
+                        </section>
+
+                        <!-- INTERNSHIP & TRAINING -->
+                        <section class="section">
+                            <div class="section-title">INTERNSHIP & TRAINING</div>
+                            <div class="section-title-line"></div>
+                            <div class="section-body" id="r-internship">
+                                Web Dev Intern – XYZ company • Currently working as a python developer Intern, handling real-world data in live projects. • Gaining practical exposure to professional data validation.
+                            </div>
+                        </section>
+
+                        <!-- PROJECTS -->
+                        <section class="section">
+                            <div class="section-title">PROJECTS</div>
+                            <div class="section-title-line"></div>
+                            <div class="section-body" id="r-projects">
+                                Smart Cooler (IoT Project) (CERTIFICATE & TROPHY) • Designed ultra-cooling system with efficient temperature control. • Integrated humidity control for improved air quality and comfort. • Implemented water level sensor to enable automatic water refilling.
+                                • Enabled smartphone and voice control via IoT integration for easy operation.
+                            </div>
+                        </section>
+
+                        <!-- ACHIEVEMENTS -->
+                        <section class="section">
+                            <div class="section-title">ACHIEVEMENTS</div>
+                            <div class="section-title-line"></div>
+                            <div class="section-body" id="r-achievements">
+                                • 1st Place – IoT Exposition (Smart Cooler Project) • Awarded certificate and trophy for best innovation.
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+function setText(id,value,fallback=""){const el=document.getElementById(id);el.textContent=value.trim()||fallback}
+function updateResume(){const name=document.getElementById("name").value;const upperName=(name||"YOUR NAME").toUpperCase();setText("r-name",upperName);const phone=document.getElementById("phone").value.trim()||"+91-0000000000";const email=document.getElementById("email").value.trim()||"email@example.com";const github=document.getElementById("github").value.trim()||"Github";const linkedin=document.getElementById("linkedin").value.trim()||"LinkedIn";setText("r-phone",phone);setText("r-email",email);setText("r-github",github);setText("r-linkedin",linkedin);document.getElementById("r-summary").textContent=document.getElementById("summary").value.trim()||"B.Tech student in Computer Science (AIML) with a strong foundation in Python and Machine Learning. Passionate about developing intelligent models and solving real-world problems through code and logic.";document.getElementById("r-education").textContent=document.getElementById("education").value.trim()||"XYZ University      Jun 2022 – Jul 2026\nB.Tech, Computer Science (AIML) | Current CGPA: 7.5";document.getElementById("r-skills").textContent=document.getElementById("skills").value.trim()||"Programming: Python, SQL, Machine Learning\nLibraries: NumPy, Pandas, Matplotlib, Sklearn";document.getElementById("r-internship").textContent=document.getElementById("internship").value.trim()||"Add your internships and trainings here.";document.getElementById("r-projects").textContent=document.getElementById("projects").value.trim()||"Add your key projects here with bullet points.";document.getElementById("r-achievements").textContent=document.getElementById("achievements").value.trim()||"Add your key achievements here."}
+document.getElementById("sampleBtn").addEventListener("click",function(){document.getElementById("name").value="Your Full Name";document.getElementById("phone").value="+91-xxxxxxxxxx";document.getElementById("email").value="example@gmail.com";document.getElementById("github").value="Github";document.getElementById("linkedin").value="Linkedin";document.getElementById("summary").value="B.Tech student in Computer Science (AIML) with a strong foundation in Python and Machine Learning. Passionate about developing intelligent models and solving real-world problems through code and logic.";document.getElementById("education").value="XYZ University      Jun 2022 – Jul 2026\nB.Tech , Computer Science (AIML) | Current CGPA : 7.5";document.getElementById("skills").value="Programming: Python, SQL , Machine Learning\nLibraries: NumPy, Pandas, Matplotlib , Sklearn";document.getElementById("internship").value="Robotics & AI Training – ROBO AI (Link)     Apr 2024 – Jun 2024\n"+"• Designed and developed a Spot Robot using Python and SolidWorks for mechanical design.\n"+"• Learned robotics fundamentals, AI integration, and automation techniques.\n"+"• Simulated robotic movements and AI-based decision-making in a virtual environment.";document.getElementById("projects").value="(IOT Project) (CERTIFICATE & TROPHY)\n"+"Vapor-Liquid Equilibrium Prediction using Artificial Neural Network (ANN) (Link)\n"+"• Designed an Artificial Neural Network (ANN) model achieving R² = 0.9988 for ethanol–water VLE prediction.\n"+"• Compared results with Raoult’s Law and identified azeotropic composition.\n"+"• Utilized Python, TensorFlow, Scikit-learn, Pandas, Matplotlib, DWSIM for modeling and visualization.\n\n"+"• Performed data wrangling to clean and preprocess large OLA ride datasets.\n"+"• Applied Excel functions & pivot tables for summarizing ride statistics and surge pricing patterns.\n"+"• Developed an interactive Power BI dashboard to visualize ride distribution and customer demand.";document.getElementById("achievements").value="• 1st Place – IOT Exposition (Smart Cooler Project)\n"+"• Awarded certificate and trophy for best innovation.";updateResume()});const inputs=document.querySelectorAll("#name, #phone, #email, #github, #linkedin, #summary, #education, #skills, #internship, #projects, #achievements");inputs.forEach((el)=>{el.addEventListener("input",updateResume)});updateResume();document.getElementById("downloadBtn").addEventListener("click",function(){const element=document.getElementById("resume-preview");const opt={margin:[0.4,0.4,0.4,0.4],filename:(document.getElementById("name").value.trim()||"resume")+".pdf",image:{type:"jpeg",quality:0.98},html2canvas:{scale:2,scrollX:0,scrollY:0,useCORS:!0},jsPDF:{unit:"in",format:"a4",orientation:"portrait"},pagebreak:{mode:["css","legacy"]}};html2pdf().set(opt).from(element).save()})
+    </script>
+</body>
+
+</html>

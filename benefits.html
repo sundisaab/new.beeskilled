@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premium Benefits — BeeSkilled</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Dark Mode Variables (Default) */
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03); 
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-gold: #FFD700;
+            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --font-head: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --btn-bg: rgba(255,255,255,0.1);
+            --modal-bg: rgba(0,0,0,0.9);
+        }
+
+        /* Light Mode Variables */
+        [data-theme="light"] {
+            --bg-color: #f0f4f8;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --btn-bg: rgba(0,0,0,0.1);
+            --modal-bg: rgba(255,255,255,0.95);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            margin: 0; padding: 0;
+            background-image: linear-gradient(rgba(125, 125, 125, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(125, 125, 125, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-entry {
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0; /* Hidden initially */
+        }
+
+        .header-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px;
+            animation-delay: 0.1s;
+        }
+        
+        .back-btn {
+            background: var(--btn-bg); border: 1px solid var(--card-border);
+            color: var(--text-main); padding: 10px 20px; border-radius: 50px;
+            text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s;
+        }
+        .back-btn:hover { border-color: var(--accent-blue); transform: translateX(-3px); }
+
+        .page-title {
+            text-align: center; margin-bottom: 60px;
+            animation-delay: 0.2s;
+        }
+        .page-title h1 {
+            font-family: var(--font-head); font-size: 3rem; margin-bottom: 10px;
+        }
+        .gradient-text {
+            background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Comparison Grid */
+        .plans-grid {
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start;
+        }
+
+        /* Common Card Style */
+        .plan-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 24px; padding: 40px;
+            backdrop-filter: blur(20px); position: relative;
+            transition: 0.3s;
+        }
+
+        /* FREE CARD */
+        .plan-free {
+            border-top: 4px solid var(--text-muted);
+            animation-delay: 0.3s;
+        }
+        
+        /* PREMIUM CARD (Highlighted) */
+        .plan-premium {
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, var(--card-bg) 100%);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+            transform: scale(1.02);
+            position: relative; overflow: hidden;
+            animation-delay: 0.4s;
+        }
+        .plan-premium::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+        }
+
+        .badge {
+            position: absolute; top: 20px; right: 20px;
+            background: var(--accent-gradient); padding: 5px 15px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 700; color: #fff;
+        }
+
+        .plan-header h2 { font-family: var(--font-head); font-size: 2rem; margin-bottom: 10px; }
+        .plan-header p { color: var(--text-muted); margin-bottom: 30px; }
+
+        .features-list { list-style: none; padding: 0; margin: 0; }
+        .features-list li {
+            padding: 15px 0; border-bottom: 1px solid var(--card-border);
+            display: flex; align-items: center; gap: 15px; font-size: 1rem; color: var(--text-main);
+        }
+        .features-list li:last-child { border-bottom: none; }
+        .features-list li i { font-size: 1.2rem; width: 25px; text-align: center; }
+
+        .check-basic { color: var(--text-muted); }
+        .check-premium { color: var(--accent-gold); text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+
+        /* Referral Item Highlight */
+        .referral-text {
+            font-size: 0.85rem; color: var(--accent-gold); display: block;
+        }
+
+        /* Certificate Themes Section */
+        .cert-themes {
+            margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--card-border);
+        }
+        .cert-themes h4 { margin-bottom: 15px; font-family: var(--font-head); color: var(--accent-blue); }
+        
+        .theme-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; 
+        }
+        
+        .theme-preview {
+            width: 100%; aspect-ratio: 4/3;
+            border-radius: 12px;
+            border: 2px solid var(--card-border); 
+            cursor: pointer; transition: 0.3s;
+            overflow: hidden; position: relative;
+        }
+        .theme-preview img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        
+        .theme-preview:hover { border-color: var(--accent-purple); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3); }
+        .theme-preview:hover img { transform: scale(1.1); }
+        .theme-preview::after {
+            content: '\f00e';
+            font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.5); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.3s; font-size: 1.5rem;
+        }
+        .theme-preview:hover::after { opacity: 1; }
+
+
+        .cta-btn {
+            display: block; width: 100%; padding: 18px; text-align: center;
+            border-radius: 100px; font-weight: 700; margin-top: 30px;
+            font-family: var(--font-head); transition: 0.3s; cursor: pointer; text-decoration: none;
+        }
+        .btn-free { background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--card-border); }
+        .btn-free:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--accent-blue); }
+        
+        .btn-premium { background: var(--accent-gradient); color: #fff; border: none; box-shadow: 0 5px 20px rgba(59, 130, 246, 0.3); }
+        .btn-premium:hover { box-shadow: 0 10px 40px rgba(139, 92, 246, 0.5); transform: translateY(-3px); }
+
+        /* Full Screen Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 2000;
+            background: var(--modal-bg);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.3s;
+            padding: 20px;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        
+        .modal-content {
+            max-width: 90%; max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            transform: scale(0.9); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.open .modal-content { transform: scale(1); }
+        
+        .close-modal {
+            position: absolute; top: 30px; right: 30px;
+            font-size: 2rem; color: var(--text-main);
+            background: none; border: none; cursor: pointer;
+        }
+
+        @media(max-width: 768px) {
+            .plans-grid { grid-template-columns: 1fr; }
+            .plan-premium { transform: scale(1); margin-top: 20px; }
+            .theme-grid { grid-template-columns: repeat(2, 1fr); }
+            .page-title h1 { font-size: 2.2rem; }
+        }
+
+       @media(max-width: 768px) {
+    .plans-grid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .plan-premium {
+        order: 1;
+    }
+
+    .plan-free {
+        order: 2;
+    }
+}
+ 
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-nav animate-entry">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <div style="font-weight:700; font-family: var(--font-head);">BeeSkilled</div>
+        </div>
+
+        <div class="page-title animate-entry">
+            <h1>Why Choose <span class="gradient-text">Premium?</span></h1>
+            <p style="color:var(--text-muted);">Invest in your future with industry-recognized credentials.</p>
+        </div>
+
+        <div class="plans-grid">
+            <div class="plan-card plan-free animate-entry">
+                <div class="plan-header">
+                    <h2>Free Internship</h2>
+                    <p>Good for learning basics</p>
+                </div>
+                <ul class="features-list">
+                    <li><i class="fas fa-certificate check-basic"></i> Standard Certificate</li>
+                    <li><i class="fas fa-map-signs check-basic"></i> Learning Roadmap</li>
+                    <li><i class="fas fa-clipboard-check check-basic"></i> Access to Quizzes</li>
+                    <li><i class="fas fa-project-diagram check-basic"></i> 1 Minor Project</li>
+                    <li style="opacity: 0.3; text-decoration: line-through;"><i class="fas fa-times"></i> Letter of Recommendation</li>
+                    <li style="opacity: 0.3; text-decoration: line-through;"><i class="fas fa-gift"></i>Unique Certificate Verification ID</li>
+                    <li style="opacity: 0.3; text-decoration: line-through;"><i class="fas fa-gift"></i>Top 20 Companies Interview Questions</li>
+                </ul>
+
+                <div class="cert-themes">
+                    <h4 style="font-size:0.95rem; color:var(--text-muted);">Standard Certificate Preview:</h4>
+                    <div class="theme-preview" style="width: 100%;" onclick="openModal(this.querySelector('img').src)">
+                        <img src="bee_lms/images/sample.jpg" alt="Standard Cert" onerror="this.src='https://placehold.co/400x300/333/fff?text=Standard+Certificate'">
+                    </div>
+                </div>
+
+                <a href="https://forms.gle/2a1crYQaeXCJjZky9" class="cta-btn btn-free">Join for Free</a>
+            </div>
+
+            <div class="plan-card plan-premium animate-entry">
+                <div class="badge">RECOMMENDED</div>
+                <div class="plan-header">
+                    <h2>Premium Internship</h2>
+                    <p>Job-Ready Career Boost</p>
+                </div>
+                <ul class="features-list">
+                         <li>
+                           <i class="fas fa-award check-premium"></i>
+                             <b>AICTE & MSME Verified Certificate</b>
+                        </li>
+
+                    <li>
+                     <i class="fas fa-laptop-code check-premium"></i>
+                        <b>Major + Minor Live Industry Projects</b>
+                    </li>
+
+                    <li>
+                    <i class="fas fa-briefcase check-premium"></i>
+                    <b>Complete Placement Preparation Material</b>
+                    </li>
+
+                    <li>
+                    <i class="fas fa-file-alt check-premium"></i>
+                    <b>ATS Friendly Resume Templates + Resume Builder</b>
+                    </li>
+
+                    <li>
+                        <i class="fas fa-user-tie check-premium"></i>
+                        <b>Top 20 Companies Interview Questions</b>
+                    </li>
+
+                    <li>
+                        <i class="fas fa-star check-premium"></i>
+                        <b>Letter of Recommendation (LOR)</b>
+                    </li>
+ 
+                    <li>
+                        <i class="fas fa-fingerprint check-premium"></i>
+                        <b>Unique Certificate Verification ID</b>
+                    </li>
+
+                    <li>
+                        <i class="fas fa-map-signs check-premium"></i>
+                        <b>Complete Learning Roadmaps</b>
+                    </li>
+
+                    <li>
+                        <i class="fas fa-code check-premium"></i>
+                        <b>30+ Industry-Ready Software Source Codes</b>
+                    </li>
+
+                    <li>
+                        <i class="fas fa-tasks check-premium"></i>
+                        <b>Quizzes & Home Assignments</b>
+                    </li>
+
+                    <li>
+                        <i class="fas fa-book-open check-premium"></i>
+                        <b>All Subjects Handwritten + Digital Notes</b>
+                    </li>
+
+ 
+                    <li>
+                        <i class="fas fa-gift check-premium"></i> 
+                        <div>
+                            <b>Referral Reward Program</b>
+                            <span class="referral-text">Invite friends & earn cashback</span>
+                        </div>
+                    </li>
+
+                </ul>
+
+
+                <div class="cert-themes">
+                    <h4>Select Your Certificate Theme (Tap to View):</h4>
+                    <div class="theme-grid">
+                        <div class="theme-preview" onclick="openModal(this.querySelector('img').src)">
+                            <img src="bee_lms/img/cert.jpg" alt="Classic Theme" onerror="this.src='https://placehold.co/400x300/111/3b82f6?text=Classic+Theme'">
+                        </div>
+                      
+                    </div>
+                </div>
+
+                <a href="https://forms.gle/LEKANKdyiux1deoG8" class="cta-btn btn-premium">Get Premium Access</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="imgModal" class="modal-overlay" onclick="closeModal()">
+        <button class="close-modal">&times;</button>
+        <img id="fullImage" class="modal-content" src="" onclick="event.stopPropagation()">
+    </div>
+
+    <script>
+        // 1. Theme Sync Logic
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+
+        // 2. Modal Logic for Certificates
+        const modal = document.getElementById('imgModal');
+        const fullImg = document.getElementById('fullImage');
+
+        function openModal(src) {
+            fullImg.src = src;
+            modal.classList.add('open');
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
