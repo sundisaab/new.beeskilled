@@ -24,12 +24,12 @@ const courses = [
   { id: "webdev", title: "Web Development (HTML/CSS/JS)", sheet: "webdev", image: "assets/courses/web.png" },
   { id: "datascience", title: "Data Science", sheet: "datascience", image: "assets/courses/data science.png" },
   { id: "mlai", title: "Machine Learning & AI", sheet: "mlai", image: "assets/courses/ml.png" },
-  { id: "mern", title: "MERN Stack", sheet: "mern", image: "assets/courses/mern.png" },
+  { id: "mern", title: "MERN Stack", sheet: "mern", image: "assets/courses/MERN.png" },
   { id: "java", title: "Java", sheet: "java", image: "assets/courses/java.png" },
   { id: "DSA", title: "DSA", sheet: "DSA", image: "assets/courses/dsa.png" },
   { id: "Flutter", title: "Flutter", sheet: "Flutter", image: "assets/courses/flutter.png" },
   { id: "data analyst", title: "Data Analyst", sheet: "data analyst", image: "assets/courses/data analyst.png" },
-  { id: "powerbi", title: "Power BI", sheet: "powerbi", image: "assets/courses/BI.png" }
+  { id: "powerbi", title: "Power BI", sheet: "powerbi", image: "assets/courses/bi.png" }
 ];
 
 // ==================================================
