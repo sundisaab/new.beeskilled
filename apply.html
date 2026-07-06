@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply Premium - Beeskilled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+      /* Theme matches index.html */
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-grid: rgba(15,23,42,0.035);
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --nav-bg: rgba(255,255,255,0.85);
+      --nav-border: rgba(226,232,240,0.8);
+      --card-bg: #ffffff;
+      --contact-input-bg: #f8fafc;
+      --contact-input-border: #e2e8f0;
+      --radius-md: 12px;
+      --radius-xl: 24px;
+      --radius-pill: 100px;
+      --font-head: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+  }
+
+  [data-theme="dark"] {
+      --bg: #09090b; --bg-subtle: #111113; --bg-grid: rgba(255,255,255,0.025);
+      --surface: #111113; --border: #27272a; --text: #fafafa;
+      --text-muted: #a1a1aa; --accent: #3b82f6; --nav-bg: rgba(9,9,11,0.85);
+      --nav-border: rgba(255,255,255,0.06); --card-bg: #111113;
+      --contact-input-bg: #18181b; --contact-input-border: #27272a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+      font-family: var(--font-body); background: var(--bg); color: var(--text); 
+      line-height: 1.6; padding-bottom: 50px; -webkit-font-smoothing: antialiased;
+      transition: background 0.35s ease, color 0.35s ease;
+  }
+  body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: radial-gradient(var(--bg-grid) 1px, transparent 1px);
+      background-size: 28px 28px; pointer-events: none; z-index: 0;
+  }
+  
+  nav {
+      max-width: 1200px; margin: 20px auto; width: 92%;
+      background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--nav-border); border-radius: var(--radius-pill);
+      padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.07); position: relative; z-index: 100;
+  }
+  .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-head); font-weight: 700; font-size: 1.15rem;
+      color: var(--text); text-decoration: none;
+  }
+  .brand img {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid var(--border); object-fit: cover;
+  }
+  .btn-back {
+      background: transparent; color: var(--text); border: 1px solid var(--border-strong);
+      padding: 8px 18px; border-radius: var(--radius-pill); font-size: 0.85rem; font-weight: 600;
+      font-family: var(--font-head); text-decoration: none; transition: 0.2s ease;
+  }
+  .btn-back:hover { background: rgba(37,99,235,0.1); border-color: var(--accent); color: var(--accent); }
+
+  .apply-container { max-width: 800px; margin: 40px auto 0; padding: 0 4%; position: relative; z-index: 1; }
+  .form-header { text-align: center; margin-bottom: 40px; }
+  .form-header h1 { font-family: var(--font-head); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; color: var(--text); margin-bottom: 8px; letter-spacing: -1px; }
+  .form-header h1 span { color: var(--accent); }
+  .form-header p { color: var(--text-muted); font-size: 0.95rem; }
+
+  .custom-form {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 40px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 10px 30px rgba(0,0,0,0.05);
+      transition: opacity 0.3s ease;
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-label span { color: var(--accent); }
+  
+  .form-input, .form-select {
+      width: 100%; padding: 12px 16px; border-radius: var(--radius-md);
+      border: 1px solid var(--contact-input-border); background: var(--contact-input-bg);
+      color: var(--text); font-family: var(--font-body); font-size: 0.9rem;
+      outline: none; transition: 0.2s;
+  }
+  .form-input:focus, .form-select:focus {
+      border-color: var(--accent); background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  
+  .form-select {
+      appearance: none; cursor: pointer;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 16px center; background-size: 16px;
+  }
+  .form-select option { background: var(--card-bg); color: var(--text); }
+  
+  .btn-submit {
+      width: 100%; padding: 14px; margin-top: 15px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: var(--radius-pill);
+      font-family: var(--font-head); font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 7px;
+  }
+  .btn-submit:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(37,99,235,0.35); }
+  
+  /* PAYMENT/SUCCESS MESSAGE STYLES */
+  .success-message {
+      display: none; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 40px; text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+  .success-message h2 { font-family: var(--font-head); font-size: 1.8rem; margin-bottom: 8px; color: var(--text); font-weight: 800; letter-spacing: -0.5px; }
+  .success-message p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6; max-width: 600px; margin-inline: auto; }
+  .success-message p strong { color: var(--text); }
+  
+  .payment-layout { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 30px; margin-bottom: 20px; }
+  
+  .qr-box { background: #fff; padding: 12px; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--border); flex-shrink: 0; }
+  .qr-box img { width: 160px; height: 160px; object-fit: contain; display: block; }
+  
+  .utr-box { background: var(--bg-subtle); border: 1px dashed var(--accent); padding: 24px; border-radius: 16px; flex: 1; max-width: 380px; text-align: left; }
+  .utr-box label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+  .utr-box input { width: 100%; padding: 12px 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: var(--font-body); font-size: 0.9rem; outline: none; margin-bottom: 14px; transition: 0.2s; }
+  .utr-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  
+  .btn-done { width: 100%; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-pill); font-family: var(--font-head); font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+  .btn-done:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,99,235,0.35); }
+  #utrError { color: #ef4444; font-size: 0.8rem; display: none; margin-top: -8px; margin-bottom: 12px; font-weight: 500; }
+
+  .success-actions { display: none; flex-direction: column; gap: 12px; align-items: center; justify-content: center; margin-top: 15px;}
+  .btn-whatsapp { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: #22c55e; color: #fff; border-radius: var(--radius-pill); text-decoration: none; font-weight: 600; font-family: var(--font-head); font-size: 1rem; transition: 0.2s; box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25); width: 100%; justify-content: center; }
+  .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35); background: #16a34a; }
+
+  @media (min-width: 640px) { .btn-whatsapp { width: auto; } }
+  @media (max-width: 640px) { 
+    .form-row { grid-template-columns: 1fr; } 
+    .custom-form, .success-message { padding: 24px 20px; } 
+    .payment-layout { flex-direction: column; gap: 20px; }
+    .utr-box { max-width: 100%; width: 100%; }
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="brand">
+        <img src="bee_lms/project-root/assets/bee.png" alt="Beeskilled" onerror="this.src='https://placehold.co/36/2563eb/fff?text=B'">
+        Beeskilled
+    </a>
+    <a href="benefits.html" class="btn-back"><i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Back to Plans</a>
+  </nav>
+
+  <div class="apply-container">
+    <div class="form-header" id="headerText">
+      <h1>Apply for <span>Premium Internship</span></h1>
+      <p>Fill out the form below to initiate your application. Next step: Payment.</p>
+    </div>
+
+    <!-- HIDDEN IFRAME TRICK -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="handleIframeLoad()"></iframe>
+
+    <!-- FORM SECTION -->
+    <form id="applicationForm" class="custom-form" action="https://docs.google.com/forms/d/e/1FAIpQLSc7I262kr1bgpkR5CN0WCRbnT7flgfCJqR18F6JPligUmiDCw/formResponse" method="POST" target="hidden_iframe" onsubmit="handleFormSubmit()">
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">NAME <span>*</span></label>
+          <input type="text" name="entry.1691760153" class="form-input" placeholder="Your Full Name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">EMAIL <span>*</span></label>
+          <input type="email" name="entry.939224560" class="form-input" placeholder="your@email.com" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">PHONE NUMBER <span>*</span></label>
+          <input type="tel" name="entry.1501523739" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">EDUCATION QUALIFICATION <span>*</span></label>
+          <input type="text" name="entry.1689416899" class="form-input" placeholder="e.g. B.Tech 3rd Year" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">COLLEGE NAME <span>*</span></label>
+          <input type="text" name="entry.1315605767" class="form-input" placeholder="Enter your full college name" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">WHICH POSITION(S) ARE YOU INTERESTED IN? <span>*</span></label>
+          <select name="entry.1644538358" class="form-select" required>
+            <option value="" disabled selected>Select a domain</option>
+            <option value="C Programming">C Programming</option>
+            <option value="C++">C++</option>
+            <option value="Python">Python</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Data Science with Python">Data Science with Python</option>
+            <option value="Machine Learning & AI">Machine Learning & AI</option>
+            <option value="Full Stack Web Development (MERN)">Full Stack Web Development (MERN)</option>
+            <option value="Java Programming">Java Programming</option>
+            <option value="Data Structures & Algorithms (DSA)">Data Structures & Algorithms (DSA)</option>
+            <option value="Mobile App Development (Flutter)">Mobile App Development (Flutter)</option>
+            <option value="Cloud Computing with AWS">Cloud Computing with AWS</option>
+            <option value="Data Analyst">Data Analyst</option>
+            <option value="Power BI">Power BI</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-submit">Proceed to Payment <i class="fas fa-arrow-right"></i></button>
+    </form>
+
+    <!-- PAYMENT & UTR MESSAGE SECTION -->
+    <div id="successMessage" class="success-message">
+      <h2>Almost Done! Complete Your Payment</h2>
+      <p>Scan the QR code using Google Pay, PhonePe, or Paytm to pay <strong style="color: var(--accent);">₹139</strong>. <br><strong>After paying, enter your UTR number to reveal the WhatsApp link.</strong></p>
+      
+      <div class="payment-layout">
+        <!-- QR BOX -->
+        <div class="qr-box">
+          <img src="bee_lms/img/qr.png" alt="Scan to Pay">
+        </div>
+        
+        <!-- UTR BOX -->
+        <div class="utr-box" id="utrBox">
+          <label>Enter 12-Digit UTR / Reference Number</label>
+          <input type="text" id="utrInput" placeholder="e.g. 312345678901" maxlength="14">
+          <p id="utrError">Please enter a valid UTR number (at least 8 digits).</p>
+          <button type="button" class="btn-done" onclick="verifyUTR()">Done & Verify Payment</button>
+        </div>
+      </div>
+
+      <!-- WHATSAPP BUTTON -->
+      <div class="success-actions" id="whatsappActions">
+        <h3 style="color: #22c55e; font-family: var(--font-head); margin-bottom: 5px; font-size: 1.2rem;">Payment Submitted!</h3>
+        <p style="margin-bottom: 12px; font-size: 0.9rem;">Please join the official WhatsApp group below to connect with mentors.</p>
+        <a href="https://chat.whatsapp.com/DiU5lzIjy3mHVk4hqZNaGn" target="_blank" class="btn-whatsapp">
+          <i class="fab fa-whatsapp"></i> Join Premium WhatsApp Group
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let isSubmitted = false;
+
+    function handleFormSubmit() {
+      isSubmitted = true;
+      let btn = document.getElementById('submitBtn');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      btn.style.opacity = '0.7';
+      btn.disabled = true;
+    }
+
+    function handleIframeLoad() {
+      if (isSubmitted) {
+        document.getElementById('applicationForm').style.display = 'none';
+        document.getElementById('headerText').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function verifyUTR() {
+      const utrValue = document.getElementById('utrInput').value.trim();
+      const errorMsg = document.getElementById('utrError');
+      
+      if(utrValue.length >= 8) {
+        document.getElementById('utrBox').style.display = 'none'; 
+        document.getElementById('whatsappActions').style.display = 'flex'; 
+        document.querySelector('.payment-layout').style.display = 'none';
+        errorMsg.style.display = 'none';
+      } else {
+        errorMsg.style.display = 'block'; 
+      }
+    }
+  </script>
+</body>
+</html>
