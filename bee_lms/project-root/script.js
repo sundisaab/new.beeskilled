@@ -12,10 +12,6 @@ const MAX_ATTEMPTS = 3;
 const PASS_MARKS = 15;
 const QUIZ_TIME = 1800;
 
-// ==================================================
-// COURSES
-// ==================================================
-
 const courses = [
   { id: "aws", title: "Cloud Computing with AWS", sheet: "aws", image: "assets/courses/aws.png" },
   { id: "C_programming", title: "C Programming", sheet: "C_programming", image: "assets/courses/c.png" },
@@ -28,13 +24,11 @@ const courses = [
   { id: "java", title: "Java", sheet: "java", image: "assets/courses/java.png" },
   { id: "DSA", title: "DSA", sheet: "DSA", image: "assets/courses/dsa.png" },
   { id: "Flutter", title: "Flutter", sheet: "Flutter", image: "assets/courses/flutter.png" },
-  { id: "data analyst", title: "Data Analyst", sheet: "data analyst", image: "assets/courses/data analyst.png" },
+  
+  { id: "data_analyst", title: "Data Analyst", sheet: "data-analyst", image: "assets/courses/data analyst.png" },
+  
   { id: "powerbi", title: "Power BI", sheet: "powerbi", image: "assets/courses/bi.png" }
 ];
-
-// ==================================================
-// STATE
-// ==================================================
 
 let student = { name: "", email: "" };
 let selectedCourse = null;
@@ -44,10 +38,6 @@ let timeLeft = QUIZ_TIME;
 
 const questionCache = {};
 let activeFetchId = 0;
-
-// ==================================================
-// INIT
-// ==================================================
 
 document.addEventListener("DOMContentLoaded", () => {
   renderCourseGrid();
@@ -82,24 +72,29 @@ function handleEntrySubmit(e) {
   renderCourseGrid();
   showView("dashboard-section");
 
-  preloadAllCourses();
+  // Call the new optimized preloader
+  preloadAllCoursesSequentially();
 }
 
 // ==================================================
-// PRELOAD ALL QUESTIONS (BACKGROUND)
+// SEQUENTIAL PRELOAD (FIXES SPEED & CRASH ISSUES)
 // ==================================================
 
-function preloadAllCourses() {
-  courses.forEach(course => {
-    if (questionCache[course.sheet]) return;
-
-    fetch(`${QUESTIONS_SCRIPT_URL}?action=getQuestions&sheet=${course.sheet}`)
-      .then(r => r.json())
-      .then(data => {
-        questionCache[course.sheet] = data || [];
-      })
-      .catch(() => {});
-  });
+// Ek sath 13 requests bhejne ke bajaye, background me ek-ek karke load karega
+// jisse Google Apps script hang nahi hoga aur user ko turant questions dikhenge.
+async function preloadAllCoursesSequentially() {
+  for (const course of courses) {
+    if (questionCache[course.sheet]) continue; // Agar pehle se load hai toh skip karein
+    
+    try {
+      // encodeURIComponent space wale naam (jaise "data analyst") ko URL safe banata hai
+      const response = await fetch(`${QUESTIONS_SCRIPT_URL}?action=getQuestions&sheet=${encodeURIComponent(course.sheet)}`);
+      const data = await response.json();
+      questionCache[course.sheet] = data || [];
+    } catch (error) {
+      console.warn(`Preload failed for ${course.sheet}`, error);
+    }
+  }
 }
 
 // ==================================================
@@ -181,13 +176,14 @@ function startTest(course) {
 }
 
 // ==================================================
-// LOAD QUESTIONS (CACHE + RACE SAFE)
+// LOAD QUESTIONS (CACHE + URL ENCODED)
 // ==================================================
 
 function loadQuestions(sheet) {
   const fetchId = ++activeFetchId;
 
-  if (questionCache[sheet]) {
+  // Agar question preloader se aa chuke hain, turant start karein (Fast Loading)
+  if (questionCache[sheet] && questionCache[sheet].length > 0) {
     questions = questionCache[sheet];
     renderQuestions();
     startTimer();
@@ -196,7 +192,8 @@ function loadQuestions(sheet) {
 
   document.getElementById("questions-container").innerHTML = spinnerHTML();
 
-  fetch(`${QUESTIONS_SCRIPT_URL}?action=getQuestions&sheet=${sheet}`)
+  // encodeURIComponent lagaya gaya hai Data Analyst (space) error rokne ke liye
+  fetch(`${QUESTIONS_SCRIPT_URL}?action=getQuestions&sheet=${encodeURIComponent(sheet)}`)
     .then(r => r.json())
     .then(data => {
       if (fetchId !== activeFetchId) return;
@@ -207,7 +204,7 @@ function loadQuestions(sheet) {
     })
     .catch(() => {
       if (fetchId !== activeFetchId) return;
-      alert("Failed to load questions");
+      alert("Failed to load questions. Please check your internet or refresh.");
       showView("dashboard-section");
     });
 }
@@ -276,7 +273,7 @@ function cancelQuiz() {
 // ==================================================
 
 function submitQuiz(e) {
-  e.preventDefault();
+  if (e && e.preventDefault) e.preventDefault();
   clearInterval(timer);
 
   let score = 0;
