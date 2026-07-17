@@ -1,7 +1,3 @@
-// ==================================================
-// CONFIG
-// ==================================================
-
 const QUESTIONS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwNNRTAbUBz0V7s7rTspawDZY8qJQpJsieTKOFti3hy866Nnm2W7mXT_nWStDtYKeWi/exec";
 
