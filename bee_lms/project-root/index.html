@@ -15,9 +15,11 @@
     <style>
         /* --- CERTIFICATE STYLES (Hidden from view) --- */
         #certificate-hidden-wrapper {
-            position: fixed;
-            top: -10000px;
-            left: -10000px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+            pointer-events: none;
             z-index: -1;
         }
 
@@ -695,7 +697,26 @@
                     margin: 0,
                     filename: `BeeSkilled_Certificate_${cleanName.replace(/\s+/g, '_')}.pdf`,
                     image: { type: 'jpeg', quality: 1.0 },
-                    html2canvas: { scale: 2, useCORS: true, scrollY: 0, backgroundColor: '#0b0a10' },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        scrollY: 0,
+                        backgroundColor: '#0b0a10',
+                        // The certificate wrapper is visibility:hidden on the real page so
+                        // students never see it. html2canvas renders from a cloned copy of
+                        // the document, so we reveal it ONLY in that clone (the live page
+                        // stays hidden the whole time) — otherwise the clone is hidden too
+                        // and the capture comes out blank, which was causing the download
+                        // to silently fail/error.
+                        onclone: function(clonedDoc) {
+                            const wrapper = clonedDoc.getElementById('certificate-hidden-wrapper');
+                            if (wrapper) {
+                                wrapper.style.visibility = 'visible';
+                                wrapper.style.position = 'static';
+                            }
+                        }
+                    },
                     jsPDF: { unit: 'px', format: [900, 636], orientation: 'landscape' }
                 };
 
@@ -703,12 +724,23 @@
                 certBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
                 certBtn.disabled = true;
 
-                html2pdf().set(opt).from(element).save().then(() => {
+            
+                const logoImg = element.querySelector('.cert-logo-img');
+                const imageReady = (logoImg && !logoImg.complete)
+                    ? new Promise(resolve => { logoImg.onload = resolve; logoImg.onerror = resolve; })
+                    : Promise.resolve();
+                const fontsReady = (document.fonts && document.fonts.ready)
+                    ? document.fonts.ready
+                    : Promise.resolve();
+
+                Promise.all([imageReady, fontsReady]).then(() => {
+                    return html2pdf().set(opt).from(element).save();
+                }).then(() => {
                     certBtn.innerHTML = originalText;
                     certBtn.disabled = false;
                 }).catch(err => {
                     console.error("PDF Error:", err);
-                    alert("Error: Please check internet connection.");
+                    alert("Certificate download failed. Please try again in a moment.");
                     certBtn.innerHTML = originalText;
                     certBtn.disabled = false;
                 });
