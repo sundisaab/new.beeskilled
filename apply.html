@@ -11,29 +11,38 @@
 
 <style>
   :root { --bg: #09090b; --bg-grid: rgba(255,255,255,0.02); --surface: #111113; --border: #27272a; --border-strong: #3f3f46; --text: #fafafa; --text-muted: #a1a1aa; --accent: #ffb800; --accent-hover: #e6a600; --nav-bg: rgba(9, 9, 11, 0.85); --card-bg: #18181b; --input-bg: #09090b; --radius-md: 12px; --radius-xl: 24px; --radius-pill: 100px; --font-head: 'Outfit', sans-serif; --font-body: 'Inter', sans-serif; }
+  
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  
   body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 60px; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(var(--bg-grid) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; z-index: 0; }
+  
   nav { max-width: 1200px; margin: 20px auto; width: 92%; background: var(--nav-bg); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 30px rgba(0,0,0,0.5); position: relative; z-index: 100; }
   .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; color: var(--text); text-decoration: none; }
   .brand img { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-strong); object-fit: cover; }
   .btn-back { background: transparent; color: var(--text); border: 1px solid var(--border-strong); padding: 8px 16px; border-radius: var(--radius-pill); font-size: 0.85rem; font-weight: 600; font-family: var(--font-head); text-decoration: none; transition: 0.2s ease; display: flex; align-items: center; gap: 6px; }
   .btn-back:hover { background: rgba(255, 184, 0, 0.1); border-color: var(--accent); color: var(--accent); }
+  
   .apply-container { max-width: 850px; margin: 40px auto 0; padding: 0 5%; position: relative; z-index: 1; }
   .form-header { text-align: center; margin-bottom: 35px; }
-  .form-header h1 { font-family: var(--font-head); font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; color: var(--text); margin-bottom: 10px; line-height: 1.1; }
+  .form-header h1 { font-family: var(--font-head); font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; color: var(--text); margin-bottom: 10px; line-height: 1.1; }
   .form-header h1 span { color: var(--accent); }
   .form-header p { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+  
   .custom-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
-  .mandatory-section { background: var(--card-bg); border: 1px solid var(--border-strong); border-radius: 16px; padding: 25px; margin-top: 30px; margin-bottom: 25px; text-align: center; transition: all 0.3s ease; }
-  .mandatory-text { color: #ef4444; font-size: 0.95rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  
+  .mandatory-section { background: var(--card-bg); border: 1px solid var(--border-strong); border-radius: 16px; padding: 25px; margin-top: 25px; margin-bottom: 25px; text-align: center; transition: all 0.3s ease; }
+  .payment-section { background: rgba(255, 184, 0, 0.03); border: 1px solid var(--accent); border-radius: 16px; padding: 30px 25px; margin-bottom: 25px; text-align: center; }
+  
+  .mandatory-text { color: #ef4444; font-size: 0.95rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
   .social-buttons { display: flex; gap: 15px; }
-  .btn-social { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-family: var(--font-body); font-size: 0.95rem; transition: all 0.3s ease; color: #fff; border: none; cursor: pointer; }
+  .btn-social { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-family: var(--font-body); font-size: 0.95rem; transition: all 0.3s ease; color: #fff; border: none; cursor: pointer; text-align: center; }
   .btn-linkedin { background: #0077b5; }
   .btn-linkedin:hover { background: #005e93; transform: translateY(-2px); }
   .btn-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
   .btn-instagram:hover { filter: brightness(1.1); transform: translateY(-2px); }
-  .form-group { margin-bottom: 20px; }
+  
+  .form-group { margin-bottom: 20px; text-align: left; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
   .form-label span { color: #ef4444; }
@@ -42,12 +51,49 @@
   .form-input::placeholder { color: #52525b; }
   .form-select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-size: 16px; }
   .form-select option { background: var(--surface); color: var(--text); }
-  .btn-submit { width: 100%; padding: 16px; background: var(--accent); color: #000000; border: none; border-radius: var(--radius-pill); font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 8px; }
+  
+  .btn-submit { width: 100%; padding: 16px; background: var(--accent); color: #000000; border: none; border-radius: var(--radius-pill); font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 10px; }
   .btn-submit:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 184, 0, 0.3); }
   .btn-submit:disabled { background: var(--border-strong); color: var(--text-muted); cursor: not-allowed; opacity: 0.5; }
-  .success-message { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 50px 30px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.4); margin-top: 20px; }
-  .instruction-box { background: rgba(34, 197, 94, 0.05); border: 1px dashed #22c55e; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto 30px; text-align: center; }
-  @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; gap: 0; } .social-buttons { flex-direction: column; } .custom-form { padding: 25px 20px; } .apply-container { margin-top: 20px; padding: 0 4%; } nav { padding: 10px 15px; margin: 15px auto; } .brand { font-size: 1rem; } .btn-back { padding: 6px 12px; font-size: 0.75rem; } .form-header h1 { font-size: 2rem; } }
+  
+  .btn-secondary { background: #27272a; color: #fff; }
+  .btn-secondary:hover { background: #3f3f46; }
+
+  .action-buttons { display: flex; gap: 15px; margin-top: 15px; }
+
+  .success-message { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 50px 30px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+  .success-message i { font-size: 4rem; color: #22c55e; margin-bottom: 20px; }
+  .success-message h2 { font-family: var(--font-head); font-size: 2rem; margin-bottom: 15px; color: #fafafa; line-height: 1.2; }
+  .success-message p { color: var(--text-muted); font-size: 1rem; margin-bottom: 30px; padding: 0 10px; }
+  
+  .hidden { display: none !important; }
+  .step-indicator { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+  .step-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border-strong); transition: 0.3s; }
+  .step-dot.active { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+  @media (max-width: 768px) { 
+    nav { padding: 12px 15px; margin: 15px auto; width: 95%; } 
+    .brand { font-size: 1rem; } 
+    .brand img { width: 28px; height: 28px; }
+    .btn-back { padding: 8px 12px; font-size: 0.8rem; } 
+    .apply-container { margin-top: 25px; padding: 0 15px; } 
+    .form-header h1 { font-size: 1.8rem; } 
+    .form-header p { font-size: 0.95rem; }
+    .custom-form { padding: 25px 20px; } 
+    .form-row { grid-template-columns: 1fr; gap: 0; } 
+    .form-group { margin-bottom: 18px; }
+    .social-buttons { flex-direction: column; gap: 12px; } 
+    .btn-social { padding: 12px 16px; width: 100%; }
+    .mandatory-section { padding: 20px 15px; }
+    .payment-section { padding: 25px 15px; }
+    .payment-section h3 { font-size: 1.5rem !important; }
+    .payment-section img { width: 180px !important; height: 180px !important; }
+    .action-buttons { flex-direction: column-reverse; gap: 12px; }
+    .action-buttons button { width: 100%; flex: none !important; }
+    .success-message { padding: 40px 20px; }
+    .success-message h2 { font-size: 1.6rem; }
+    .success-message i { font-size: 3.5rem; }
+  }
 </style>
 </head>
 <body>
@@ -62,106 +108,106 @@
   <div class="apply-container">
     <div class="form-header" id="headerText">
       <h1>Apply for <span>Premium Internship</span></h1>
-      <p>Fill out the form below to initiate your application. Next step: Payment.</p>
+      <p id="subHeaderText">Step 1: Fill out your details & verify socials.</p>
     </div>
 
-     
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="handleIframeLoad()"></iframe>
 
-     
     <form id="applicationForm" class="custom-form" action="https://docs.google.com/forms/d/e/1FAIpQLSc7I262kr1bgpkR5CN0WCRbnT7flgfCJqR18F6JPligUmiDCw/formResponse" method="POST" target="hidden_iframe" onsubmit="handleFormSubmit()">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">NAME <span>*</span></label>
-          <input type="text" name="entry.1691760153" class="form-input" placeholder="Your Full Name" required>
+      
+      <div class="step-indicator" id="stepIndicator">
+        <div class="step-dot active" id="dot1"></div>
+        <div class="step-dot" id="dot2"></div>
+      </div>
+
+      <div id="step1">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">NAME <span>*</span></label>
+            <input type="text" name="entry.1691760153" class="form-input" placeholder="Your Full Name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">EMAIL <span>*</span></label>
+            <input type="email" id="userEmailInput" name="entry.939224560" class="form-input" placeholder="your@email.com" required>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">EMAIL <span>*</span></label>
-           
-          <input type="email" id="userEmailInput" name="entry.939224560" class="form-input" placeholder="your@email.com" required>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">PHONE NUMBER <span>*</span></label>
+            <input type="tel" name="entry.1501523739" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">EDUCATION QUALIFICATION <span>*</span></label>
+            <input type="text" name="entry.1689416899" class="form-input" placeholder="e.g. B.Tech 3rd Year" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">COLLEGE NAME <span>*</span></label>
+            <input type="text" name="entry.1315605767" class="form-input" placeholder="Enter your full college name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">WHICH POSITION(S) ARE YOU INTERESTED IN? <span>*</span></label>
+            <select name="entry.1644538358" class="form-select" required>
+              <option value="" disabled selected>Select a domain</option>
+              <option value="C Programming">C Programming</option>
+              <option value="C++">C++</option>
+              <option value="Python">Python</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Data Science with Python">Data Science with Python</option>
+              <option value="Machine Learning & AI">Machine Learning & AI</option>
+              <option value="Full Stack Web Development (MERN)">Full Stack Web Development (MERN)</option>
+              <option value="Java Programming">Java Programming</option>
+              <option value="Data Structures & Algorithms (DSA)">Data Structures & Algorithms (DSA)</option>
+              <option value="Mobile App Development (Flutter)">Mobile App Development (Flutter)</option>
+              <option value="Cloud Computing with AWS">Cloud Computing with AWS</option>
+              <option value="Data Analyst">Data Analyst</option>
+              <option value="Power BI">Power BI</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="mandatory-section" id="mandatoryBox">
+          <p class="mandatory-text" id="lock-msg"><i class="fas fa-lock"></i> Compulsory: Follow both to proceed to Payment.</p>
+          <div class="social-buttons">
+            <a href="https://www.linkedin.com/in/bee-skilled-783939406/" target="_blank" onclick="checkFollow('linkedin')" id="btn-in" class="btn-social btn-linkedin"><i class="fab fa-linkedin"></i> Follow on LinkedIn</a>
+            <a href="https://www.instagram.com/beeskilled?igsh=MWFubTQ0ajJjYnp5dw%3D%3D&utm_source=qr" target="_blank" onclick="checkFollow('instagram')" id="btn-ig" class="btn-social btn-instagram"><i class="fab fa-instagram"></i> Follow on Instagram</a>
+          </div>
+        </div>
+        
+        <button type="button" id="nextBtn" onclick="goToStep2()" class="btn-submit" disabled><i class="fas fa-lock"></i> Next step Locked</button>
+      </div>
+
+      <div id="step2" class="hidden">
+        
+        <div class="payment-section">
+          <h3 style="margin-bottom: 10px; color: var(--accent); font-family: var(--font-head); font-size: 1.8rem;">Scan & Pay ₹139</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px;">Scan the QR code below using any UPI App (GPay, PhonePe, Paytm). After payment, enter your UTR/Transaction Number.</p>
+          
+          <img src="bee_lms\img\qr.png" alt="Payment QR Code" style="width: 220px; height: 220px; object-fit: contain; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border-strong);">
+          
+          <div class="form-group">
+            <label class="form-label">ENTER UTR / TRANSACTION NO <span>*</span></label>
+            <input type="text" name="entry.ADD_UTR_ENTRY_ID_HERE" class="form-input" placeholder="e.g. 3124567890" maxlength="12" minlength="12" pattern="\d{12}" title="Please enter exactly 12 digit UTR number" required>
+          </div>
+        </div>
+        
+        <div class="action-buttons">
+          <button type="button" onclick="goToStep1()" class="btn-submit btn-secondary" style="flex: 0.4;"><i class="fas fa-arrow-left"></i> Back</button>
+          <button type="submit" id="submitBtn" class="btn-submit" style="flex: 1;"><i class="fas fa-check-circle"></i> Verify & Submit Application</button>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">PHONE NUMBER <span>*</span></label>
-          <input type="tel" name="entry.1501523739" class="form-input" placeholder="+91 XXXXX XXXXX" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">EDUCATION QUALIFICATION <span>*</span></label>
-          <input type="text" name="entry.1689416899" class="form-input" placeholder="e.g. B.Tech 3rd Year" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">COLLEGE NAME <span>*</span></label>
-          <input type="text" name="entry.1315605767" class="form-input" placeholder="Enter your full college name" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">WHICH POSITION(S) ARE YOU INTERESTED IN? <span>*</span></label>
-          <select name="entry.1644538358" class="form-select" required>
-            <option value="" disabled selected>Select a domain</option>
-            <option value="C Programming">C Programming</option>
-            <option value="C++">C++</option>
-            <option value="Python">Python</option>
-            <option value="Web Development">Web Development</option>
-            <option value="Data Science with Python">Data Science with Python</option>
-            <option value="Machine Learning & AI">Machine Learning & AI</option>
-            <option value="Full Stack Web Development (MERN)">Full Stack Web Development (MERN)</option>
-            <option value="Java Programming">Java Programming</option>
-            <option value="Data Structures & Algorithms (DSA)">Data Structures & Algorithms (DSA)</option>
-            <option value="Mobile App Development (Flutter)">Mobile App Development (Flutter)</option>
-            <option value="Cloud Computing with AWS">Cloud Computing with AWS</option>
-            <option value="Data Analyst">Data Analyst</option>
-            <option value="Power BI">Power BI</option>
-          </select>
-        </div>
-      </div>
-      <div class="mandatory-section" id="mandatoryBox">
-        <p class="mandatory-text" id="lock-msg"><i class="fas fa-lock"></i> Compulsory: Follow both to unlock the Payment button.</p>
-        <div class="social-buttons">
-          <a href="https://www.linkedin.com/in/bee-skilled-783939406/" target="_blank" onclick="checkFollow('linkedin')" id="btn-in" class="btn-social btn-linkedin"><i class="fab fa-linkedin"></i> Follow on LinkedIn</a>
-          <a href="https://www.instagram.com/beeskilled?igsh=MWFubTQ0ajJjYnp5dw%3D%3D&utm_source=qr" target="_blank" onclick="checkFollow('instagram')" id="btn-ig" class="btn-social btn-instagram"><i class="fab fa-instagram"></i> Follow on Instagram</a>
-        </div>
-      </div>
-      <button type="submit" id="submitBtn" class="btn-submit" disabled><i class="fas fa-lock"></i> Proceed to Payment Locked</button>
     </form>
 
-    
     <div id="successMessage" class="success-message">
-      
-      
-      <div id="paymentActionBox">
-        <i class="fas fa-shield-alt" style="font-size: 4rem; color: var(--accent); margin-bottom: 20px;"></i>
-        <h2 style="font-family: var(--font-head); font-size: 2.2rem; margin-bottom: 15px; color: var(--text);">Step 2: Complete Payment</h2>
-        <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 25px;">Your application is saved. Now, securely pay ₹139 in the new tab that opens.</p>
-        <button onclick="startPaymentProcess()" class="btn-submit" style="max-width: 320px; margin: 0 auto;">
-          <i class="fas fa-external-link-alt"></i> Pay ₹139 Securely
-        </button>
-      </div>
-
-       
-      <div id="verifyBox" style="display:none;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #22c55e; margin-bottom: 20px;"></i>
-        <h2 style="font-family: var(--font-head); font-size: 2rem; margin-bottom: 15px; color: var(--text);">Waiting for Payment...</h2>
-        <div class="instruction-box">
-          <p style="color: var(--text); font-size: 0.95rem;">After completing the payment in the Konfhub tab, click the button below to verify and get your WhatsApp link.</p>
-        </div>
-        <button onclick="verifyPaymentOnline()" id="verifyBtn" class="btn-submit" style="max-width: 320px; margin: 0 auto; background: #22c55e; color: #fff;">
-          <i class="fas fa-sync-alt"></i> I Have Paid - Verify Now
-        </button>
-        <p id="verifyError" style="color: #ef4444; font-size: 0.95rem; margin-top: 15px; font-weight: 600; display: none;">Payment not found yet. If you just paid, wait 5 seconds and click again.</p>
-      </div>
-
-     
-      <div id="whatsappBox" style="display:none; text-align: center;">
-         <i class="fab fa-whatsapp" style="font-size: 4rem; color: #22c55e; margin-bottom: 20px;"></i>
-         <h2 style="font-family: var(--font-head); font-size: 2.2rem; margin-bottom: 15px; color: #fafafa;">Payment Verified! 🎉</h2>
-         <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 30px;">Welcome aboard! Join your exclusive internship batch right now.</p>
+      <div id="whatsappBox">
+         <i class="fab fa-whatsapp"></i>
+         <h2>Payment Verified! 🎉</h2>
+         <p>Your details and UTR have been successfully verified. Welcome aboard! Join your exclusive internship batch right now.</p>
          <a href="https://chat.whatsapp.com/DiU5lzIjy3mHVk4hqZNaGn" target="_blank" class="btn-submit" style="display: inline-flex; max-width: 350px; margin: 0 auto; background: #22c55e; color: #fff;">
            <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> Join Premium WhatsApp Group
          </a>
       </div>
-
     </div>
   </div>
 
@@ -169,78 +215,67 @@
     let linkedinFollowed = false;
     let instagramFollowed = false;
     let isSubmitted = false;
-    let userEmail = "";  
-    
-      
-    const scriptURL = "https://script.google.com/macros/s/AKfycbyUZHJn8ne3NNMX_tCi9ENbRViyBhrS8y5pDumQZ6wbTiNvSoiqJ7rYD24zEm_YlDZF/exec";
 
     function checkFollow(platform) {
-      if(platform === 'linkedin') { linkedinFollowed = true; document.getElementById('btn-in').innerHTML = '<i class="fas fa-check-circle"></i> Verified'; document.getElementById('btn-in').style.background = '#059669'; }
-      if(platform === 'instagram') { instagramFollowed = true; document.getElementById('btn-ig').innerHTML = '<i class="fas fa-check-circle"></i> Verified'; document.getElementById('btn-ig').style.background = '#059669'; }
+      if(platform === 'linkedin') { 
+          linkedinFollowed = true; 
+          document.getElementById('btn-in').innerHTML = '<i class="fas fa-check-circle"></i> Verified'; 
+          document.getElementById('btn-in').style.background = '#059669'; 
+      }
+      if(platform === 'instagram') { 
+          instagramFollowed = true; 
+          document.getElementById('btn-ig').innerHTML = '<i class="fas fa-check-circle"></i> Verified'; 
+          document.getElementById('btn-ig').style.background = '#059669'; 
+      }
       
       if(linkedinFollowed && instagramFollowed) {
-        document.getElementById('submitBtn').disabled = false;
-        document.getElementById('submitBtn').innerHTML = 'Proceed to Payment <i class="fas fa-arrow-right"></i>';
+        document.getElementById('nextBtn').disabled = false;
+        document.getElementById('nextBtn').innerHTML = 'Next: Proceed to Payment <i class="fas fa-arrow-right"></i>';
         document.getElementById('lock-msg').innerHTML = '<i class="fas fa-check-circle" style="color:#22c55e;"></i> Unlocked.';
       }
     }
 
+    function goToStep2() {
+      const step1Inputs = document.querySelectorAll('#step1 input, #step1 select');
+      let isValid = true;
+      step1Inputs.forEach(input => {
+        if (!input.checkValidity()) {
+          input.reportValidity();
+          isValid = false;
+        }
+      });
+
+      if (isValid) {
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.remove('hidden');
+        document.getElementById('dot1').classList.remove('active');
+        document.getElementById('dot2').classList.add('active');
+        document.getElementById('subHeaderText').innerText = "Step 2: Complete payment and verify.";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function goToStep1() {
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step1').classList.remove('hidden');
+      document.getElementById('dot2').classList.remove('active');
+      document.getElementById('dot1').classList.add('active');
+      document.getElementById('subHeaderText').innerText = "Step 1: Fill out your details & verify socials.";
+    }
+
     function handleFormSubmit() {
       isSubmitted = true;
-      
-      userEmail = document.getElementById('userEmailInput').value; 
       let btn = document.getElementById('submitBtn');
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving Application...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
       btn.disabled = true;
     }
 
     function handleIframeLoad() {
       if (isSubmitted) {
-        document.getElementById('applicationForm').style.display = 'none';
-        document.getElementById('headerText').style.display = 'none';
+        document.getElementById('applicationForm').classList.add('hidden');
+        document.getElementById('headerText').classList.add('hidden');
         document.getElementById('successMessage').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
-     
-    function startPaymentProcess() {
-       
-      window.open("https://konfhub.com/checkout/premium-internship-access?ticketId=112661", "_blank");
-      
-       
-      document.getElementById('paymentActionBox').style.display = 'none';
-      document.getElementById('verifyBox').style.display = 'block';
-    }
-
-    async function verifyPaymentOnline() {
-      const btn = document.getElementById('verifyBtn');
-      const errorMsg = document.getElementById('verifyError');
-      
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying from Server...';
-      btn.disabled = true;
-      errorMsg.style.display = 'none';
-
-      try {
-         
-        let response = await fetch(scriptURL + "?action=check_payment&email=" + encodeURIComponent(userEmail));
-        let result = await response.json();
-
-        if (result.status === "paid") {
-           
-           document.getElementById('verifyBox').style.display = 'none';
-           document.getElementById('whatsappBox').style.display = 'block';
-        } else {
-           // AGAR BINA PAY KIYE CLICK KIYA - Toh Error Dega
-           btn.innerHTML = '<i class="fas fa-sync-alt"></i> I Have Paid - Verify Now';
-           btn.disabled = false;
-           errorMsg.style.display = 'block';
-        }
-      } catch(e) {
-           btn.innerHTML = '<i class="fas fa-sync-alt"></i> I Have Paid - Verify Now';
-           btn.disabled = false;
-           errorMsg.innerText = "Network issue. Please try again.";
-           errorMsg.style.display = 'block';
       }
     }
   </script>
